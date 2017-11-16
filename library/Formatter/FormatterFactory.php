@@ -1,5 +1,6 @@
-#!/usr/bin/env php
 <?php
+
+declare(strict_types = 1);
 
 /*
  * Cerberus IRCBot
@@ -19,26 +20,31 @@
  * with this program; if not, see <http://www.gnu.org/licenses/>.
  */
 
-declare(strict_types = 1);
+namespace Cerberus\Formatter;
 
-namespace Cerberus;
+/**
+ * Class FormatterFactory
+ * @package Cerberus
+ * @author Stefan Hüsges
+ * @link http://www.mpcx.net/projekte/cerberus/ Project Homepage
+ * @link https://github.com/tronsha/cerberus Project on GitHub
+ * @license http://www.gnu.org/licenses/gpl-3.0 GNU General Public License
+ */
+class FormatterFactory
+{
+    /**
+     * @return FormatterConsole
+     */
+    public static function console(): FormatterConsole
+    {
+        return new FormatterConsole;
+    }
 
-if (true === version_compare(phpversion(), '7.0.0', '<')) {
-    echo 'Your version of PHP is ' . phpversion() . PHP_EOL;
-    echo 'PHP 7.0.0 or higher is required' . PHP_EOL;
-    exit;
+    /**
+     * @return FormatterHtml
+     */
+    public static function html(): FormatterHtml
+    {
+        return new FormatterHtml;
+    }
 }
-
-chdir(__DIR__);
-
-if (true === file_exists('../vendor/autoload.php')) {
-    require_once '../vendor/autoload.php';
-} else {
-    echo 'You must set up the project dependencies, run the following commands:' . PHP_EOL;
-    echo 'curl -s https://getcomposer.org/installer | php' . PHP_EOL;
-    echo 'php composer.phar install' . PHP_EOL;
-    exit;
-}
-
-$cerberus = new Bot;
-$cerberus->run();

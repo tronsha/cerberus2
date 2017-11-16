@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /*
  * Cerberus IRCBot
  * Copyright (C) 2008 - 2017 Stefan Hüsges
@@ -18,8 +20,6 @@
  * with this program; if not, see <http://www.gnu.org/licenses/>.
  */
 
-declare (strict_types = 1);
-
 namespace Cerberus;
 
 /**
@@ -34,6 +34,8 @@ namespace Cerberus;
  */
 class Bot
 {
+    private $console = null;
+
     /**
      * Constructor
      */
@@ -47,6 +49,9 @@ class Bot
                 throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
             }
         );
+        
+        $formatter = \Cerberus\Formatter\FormatterFactory::console();
+        $this->console = new \Cerberus\Console($this, $formatter);
     }
 
     /**
@@ -54,5 +59,27 @@ class Bot
      */
     public function run()
     {
+        $this->console->writeln('<error>test</error>');
+    }
+    
+    /**
+     * @return bool
+     */
+    public static function isExecAvailable(): bool
+    {
+        $available = true;
+        if (false === empty(ini_get('safe_mode'))) {
+            $available = false;
+        } else {
+            $disable = ini_get('disable_functions');
+            $blacklist = ini_get('suhosin.executor.func.blacklist');
+            if (false === empty($disable . $blacklist)) {
+                $array = preg_split('/,\s*/', $disable . ',' . $blacklist);
+                if (true === in_array('exec', $array, true)) {
+                    $available = false;
+                }
+            }
+        }
+        return $available;
     }
 }
