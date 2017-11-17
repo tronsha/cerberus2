@@ -97,10 +97,10 @@ abstract class Formatter
                 $backgroundColor .= $char;
             } elseif ('font' === $colorType || 'background' === $colorType) {
                 if ('' !== $backgroundColor) {
-                    $coloredText .= $this->getColor($fontColor, $backgroundColor);
+                    $coloredText .= $this->getColor(intval($fontColor), intval($backgroundColor));
                     $reset = true;
                 } elseif ('' !== $fontColor) {
-                    $coloredText .= $this->getColor($fontColor);
+                    $coloredText .= $this->getColor(intval($fontColor));
                     $reset = true;
                 } else {
                     $coloredText .= $this->getColor();
