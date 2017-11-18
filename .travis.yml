@@ -1,0 +1,46 @@
+language: php
+
+php:
+  - 7.0
+  - 7.1
+  - 7.2
+
+env:
+  - DB=mysql
+  - DB=pgsql
+
+install:
+  - composer install
+
+before_script:
+  - mkdir -p "$HOME/.php-cs-fixer"
+  - cat config.travis.$DB.ini > config.ini
+
+script:
+  - vendor/bin/php-cs-fixer fix --cache-file "$HOME/.php-cs-fixer/.php_cs.cache" --dry-run --diff --verbose
+  - vendor/bin/phpunit
+
+matrix:
+  include:
+    - php: hhvm
+      sudo: true
+      dist: trusty
+      group: edge
+      addons:
+        apt:
+          packages:
+            - mysql-server-5.6
+            - mysql-client-core-5.6
+            - mysql-client-5.6
+      services:
+        - mysql
+      env: DB=mysql
+
+  allow_failures:
+    - php: 7.2
+    - php: hhvm
+
+cache:
+  directories:
+      - "$HOME/.composer/cache"
+      - "$HOME/.php-cs-fixer"
