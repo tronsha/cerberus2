@@ -20,9 +20,11 @@ declare(strict_types = 1);
  * with this program; if not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Cerberus;
+namespace Cerberus\Output;
 
+use Cerberus\Bot;
 use Cerberus\Formatter\FormatterConsole;
+use Cerberus\System;
 use Exception;
 use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
@@ -46,7 +48,8 @@ class Console
     protected $param = null;
 
     /**
-     *
+     * @param Bot $bot
+     * @param FormatterConsole $formatter
      */
     public function __construct(Bot $bot, FormatterConsole $formatter)
     {
@@ -67,14 +70,11 @@ class Console
     }
 
     /**
-     * @param string $output
+     * @param string $text
      */
-    public function writeln(string $output = '')
+    public function writeln(string $text = '')
     {
-        if ($this->return) {
-            return $output;
-        }
-        $this->output->writeln($output);
+        $this->output->writeln($text);
     }
 
     /**
@@ -111,7 +111,7 @@ class Console
             return $escape ? $this->escape($text) : $text;
         }
         if (null === $length) {
-            if (false === $this->bot->isExecAvailable()) {
+            if (false === System::isExecAvailable()) {
                 return $escape ? $this->escape($text) : $text;
             }
             $matches = [];
@@ -166,7 +166,7 @@ class Console
      */
     protected function wordwrap(string $text, int $length = 80, string $break = PHP_EOL, bool $cut = true): string
     {
-        if (1 > $length) {
+        if ($length < 1) {
             throw new Exception('Length cannot be negative or null.');
         }
         $textArray = explode(' ', $text);

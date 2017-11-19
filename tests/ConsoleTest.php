@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /*
  * Cerberus IRCBot
  * Copyright (C) 2008 - 2017 Stefan Hüsges
@@ -20,6 +22,8 @@
 
 namespace Cerberus;
 
+use Cerberus\Formatter\FormatterConsole;
+use Cerberus\Output\Console;
 use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Console\Output\StreamOutput;
 
@@ -30,7 +34,7 @@ class ConsoleTest extends \PHPUnit\Framework\TestCase
 
     protected function setUp()
     {
-        $this->console = new Console(new \Cerberus\Bot, new \Cerberus\Formatter\FormatterConsole);
+        $this->console = new Console(new Bot, new FormatterConsole);
         $this->stream = fopen('php://memory', 'a', false);
     }
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /*
  * Cerberus IRCBot
  * Copyright (C) 2008 - 2017 Stefan Hüsges

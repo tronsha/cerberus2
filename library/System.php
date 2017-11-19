@@ -22,46 +22,34 @@ declare(strict_types = 1);
 
 namespace Cerberus;
 
-use Cerberus\Formatter\FormatterFactory;
-use Cerberus\Output\Console;
-
 /**
- * Class Bot
+ * Class System
  * @package Cerberus
  * @author Stefan Hüsges
  * @link http://www.mpcx.net/projekte/cerberus/ Project Homepage
  * @link https://github.com/tronsha/cerberus Project on GitHub
- * @link https://tools.ietf.org/html/rfc1459 Internet Relay Chat: Client Protocol - RFC1459
- * @link https://tools.ietf.org/html/rfc2812 Internet Relay Chat: Client Protocol - RFC2812
  * @license http://www.gnu.org/licenses/gpl-3.0 GNU General Public License
  */
-class Bot
+class System
 {
-    private $console = null;
-
     /**
-     * Constructor
+     * @return bool
      */
-    public function __construct()
+    public static function isExecAvailable(): bool
     {
-        set_time_limit(0);
-        error_reporting(-1);
-        date_default_timezone_set('Europe/Berlin');
-        set_error_handler(
-            function ($errno, $errstr, $errfile, $errline, array $errcontext) {
-                throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
+        $available = true;
+        if (false === empty(ini_get('safe_mode'))) {
+            $available = false;
+        } else {
+            $disable = ini_get('disable_functions');
+            $blacklist = ini_get('suhosin.executor.func.blacklist');
+            if (false === empty($disable . $blacklist)) {
+                $array = preg_split('/,\s*/', $disable . ',' . $blacklist);
+                if (true === in_array('exec', $array, true)) {
+                    $available = false;
+                }
             }
-        );
-        
-        $formatter = FormatterFactory::console();
-        $this->console = new Console($this, $formatter);
-    }
-
-    /**
-     * run me as main method
-     */
-    public function run()
-    {
-        $this->console->writeln('<error>test</error>');
+        }
+        return $available;
     }
 }
