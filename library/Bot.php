@@ -54,7 +54,7 @@ class Bot
         );
         
         $formatter = FormatterFactory::console();
-        $this->console = new Console($this, $formatter);
+        $this->setConsole(new Console($this, $formatter));
     }
 
     /**
@@ -62,6 +62,22 @@ class Bot
      */
     public function run()
     {
-        $this->console->writeln('<error>test</error>');
+        $this->getConsole()->writeln('<error>test</error>');
+    }
+    
+    /**
+     * @param Console $console
+     */
+    public function setConsole(Console $console)
+    {
+        $this->console = $console;
+    }
+    
+    /**
+     * @return Console
+     */
+    public function getConsole(): Console
+    {
+        return $this->console;
     }
 }
