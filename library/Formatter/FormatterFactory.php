@@ -33,18 +33,18 @@ namespace Cerberus\Formatter;
 class FormatterFactory
 {
     /**
-     * @return FormatterConsole
+     * @return Console
      */
-    public static function console(): FormatterConsole
+    public static function console(): Console
     {
-        return new FormatterConsole;
+        return new Console;
     }
 
     /**
-     * @return FormatterHtml
+     * @return Html
      */
-    public static function html(): FormatterHtml
+    public static function html(): Html
     {
-        return new FormatterHtml;
+        return new Html;
     }
 }

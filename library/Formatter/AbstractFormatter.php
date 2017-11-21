@@ -25,14 +25,14 @@ namespace Cerberus\Formatter;
 use Exception;
 
 /**
- * Class Formatter
+ * Class AbstractFormatter
  * @package Cerberus
  * @author Stefan Hüsges
  * @link http://www.mpcx.net/projekte/cerberus/ Project Homepage
  * @link https://github.com/tronsha/cerberus Project on GitHub
  * @license http://www.gnu.org/licenses/gpl-3.0 GNU General Public License
  */
-abstract class Formatter
+abstract class AbstractFormatter
 {
     protected $type = null;
     

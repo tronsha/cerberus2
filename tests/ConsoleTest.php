@@ -22,7 +22,7 @@ declare(strict_types = 1);
 
 namespace Cerberus;
 
-use Cerberus\Formatter\FormatterConsole;
+use Cerberus\Formatter\Console as FormatterConsole;
 use Cerberus\Output\Console;
 use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Console\Output\StreamOutput;

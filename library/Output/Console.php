@@ -23,7 +23,7 @@ declare(strict_types = 1);
 namespace Cerberus\Output;
 
 use Cerberus\Bot;
-use Cerberus\Formatter\FormatterConsole;
+use Cerberus\Formatter\Console as FormatterConsole;
 use Cerberus\System;
 use Exception;
 use Symfony\Component\Console\Formatter\OutputFormatter;
