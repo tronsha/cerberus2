@@ -22,8 +22,6 @@ declare(strict_types = 1);
 
 namespace Cerberus\Formatter;
 
-use Exception;
-
 /**
  * Class AbstractFormatter
  * @package Cerberus
@@ -75,14 +73,10 @@ abstract class AbstractFormatter
 
     /**
      * @param string $text
-     * @throws Exception
      * @return string
      */
     public function color(string $text): string
     {
-        if ('HTML' !== $this->type && 'CONSOLE' !== $this->type) {
-            throw new Exception('Type must be HTML or Console.');
-        }
         $coloredText = '';
         $colorType = $fontColor = $backgroundColor = '';
         $reset = false;
