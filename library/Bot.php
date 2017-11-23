@@ -37,7 +37,11 @@ use Cerberus\Output\Console;
  */
 class Bot
 {
+    private $botId = 0;
+    
+    private $config = null;
     private $console = null;
+    private $database = null;
 
     /**
      * Constructor
@@ -53,6 +57,8 @@ class Bot
             }
         );
         
+        $this->setConfig(new Config($this));
+        $this->setDatabase(new Database($this));
         $formatter = FormatterFactory::console();
         $this->setConsole(new Console($this, $formatter));
     }
@@ -63,6 +69,38 @@ class Bot
     public function run()
     {
         $this->getConsole()->writeln('<error>test</error>');
+    }
+    
+    /**
+     * @param $id int
+     */
+    public function setBotId($id)
+    {
+        $this->botId = $id;
+    }
+    
+    /**
+     * @return int
+     */
+    public function getBotId(): int
+    {
+        return $this->botId;
+    }
+
+    /**
+     * @param Database $database
+     */
+    public function setDatabase(Database $database)
+    {
+        $this->database = $database;
+    }
+    
+    /**
+     * @return Database
+     */
+    public function getDatabase(): Database
+    {
+        return $this->database;
     }
     
     /**
@@ -79,5 +117,21 @@ class Bot
     public function getConsole(): Console
     {
         return $this->console;
+    }
+    
+    /**
+     * @param Config $config
+     */
+    public function setConfig(Config $config)
+    {
+        $this->config = $config;
+    }
+    
+    /**
+     * @return Config
+     */
+    public function getConfig(): Config
+    {
+        return $this->config;
     }
 }
