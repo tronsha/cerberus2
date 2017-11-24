@@ -39,9 +39,11 @@ class Bot
 {
     private $botId = 0;
     
+    private $caller = null;
     private $config = null;
     private $console = null;
     private $database = null;
+    private $system = null;
 
     /**
      * Constructor
@@ -56,11 +58,11 @@ class Bot
                 throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
             }
         );
-        
-        $this->setConfig(new Config($this));
+        $this->setSystem(new System);
+        $this->setCaller(new Caller);
+        //$this->setConfig(new Config);
+        $this->setConsole(new Console($this, FormatterFactory::console()));
         $this->setDatabase(new Database($this));
-        $formatter = FormatterFactory::console();
-        $this->setConsole(new Console($this, $formatter));
     }
 
     /**
@@ -85,6 +87,22 @@ class Bot
     public function getBotId(): int
     {
         return $this->botId;
+    }
+    
+    /**
+     * @param System $system
+     */
+    public function setSystem(System $system)
+    {
+        $this->system = $system;
+    }
+    
+    /**
+     * @return System
+     */
+    public function getSystem(): System
+    {
+        return $this->system;
     }
 
     /**
@@ -117,6 +135,22 @@ class Bot
     public function getConsole(): Console
     {
         return $this->console;
+    }
+    
+    /**
+     * @param Caller $caller
+     */
+    public function setCaller(Caller $caller)
+    {
+        $this->caller = $caller;
+    }
+    
+    /**
+     * @return Caller
+     */
+    public function getCaller(): Caller
+    {
+        return $this->caller;
     }
     
     /**

@@ -18,7 +18,7 @@
  * with this program; if not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Cerberus\Database;
+namespace Cerberus;
 
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Version;
@@ -33,8 +33,9 @@ use Exception;
  * @link http://www.doctrine-project.org/projects/dbal.html Database Abstraction Layer
  * @license http://www.gnu.org/licenses/gpl-3.0 GNU General Public License
  */
-class Database extends CallHelper
+class Database
 {
+    protected $bot = null;
     protected $config = [];
     protected $conn = null;
 
@@ -44,11 +45,10 @@ class Database extends CallHelper
     public function __construct(Bot $bot = null)
     {
         $this->setBot($bot);
-        $this->setNamespace('\Cerberus\Database\Db');
-        $config = $this->getBot()->getConfig()->get('database');
-        foreach ($config as $key => $value) {
-            $this->setConfig($key, $value);
-        }
+        //$config = $this->getBot()->getConfig()->get('database');
+        //foreach ($config as $key => $value) {
+        //    $this->setConfig($key, $value);
+        //}
     }
 
     /**
@@ -93,6 +93,22 @@ class Database extends CallHelper
     {
         $this->config[$key] = $value;
     }
+    
+    /**
+     * @param Bot $bot
+     */
+    public function setBot($bot)
+    {
+        $this->bot = $bot;
+    }
+    
+    /**
+     * @return \Cerberus\Bot
+     */
+    public function getBot(): Bot
+    {
+        return $this->bot;
+    }
 
     /**
      * @return int
@@ -118,7 +134,7 @@ class Database extends CallHelper
     public function __call($name, $arguments)
     {
         try {
-            return parent::__call($name, $arguments);
+            return $this->getBot()->getCaller()->call('\Cerberus\Database\Database', $name, $arguments);
         } catch (Exception $e) {
             $this->error($e->getMessage());
         }

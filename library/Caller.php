@@ -21,34 +21,17 @@
 namespace Cerberus;
 
 /**
- * Class CallHelper
+ * Class Caller
  * @package Cerberus
  * @author Stefan Hüsges
  * @link http://www.mpcx.net/projekte/cerberus/ Project Homepage
  * @link https://github.com/tronsha/cerberus Project on GitHub
  * @license http://www.gnu.org/licenses/gpl-3.0 GNU General Public License
  */
-class CallHelper
+class Caller
 {
-    protected $bot = null;
     protected $classes = [];
     protected $namespace = null;
-
-    /**
-     * @param Bot $bot
-     */
-    public function setBot($bot)
-    {
-        $this->bot = $bot;
-    }
-    
-    /**
-     * @return \Cerberus\Bot
-     */
-    public function getBot(): Bot
-    {
-        return $this->bot;
-    }
 
     /**
      * @param string $namespace
@@ -67,12 +50,14 @@ class CallHelper
     }
 
     /**
+     * @param string $namespace
      * @param string $name
      * @param array $arguments
      * @return mixed
      */
-    public function __call($name, $arguments)
+    public function call($namespace, $name, $arguments)
     {
+        $this->setNamespace($namespace);
         $class = $this->getClass($name);
         if (null !== $class) {
             return call_user_func_array([$class, $name], $arguments);
