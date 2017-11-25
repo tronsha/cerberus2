@@ -97,10 +97,6 @@ class ConsoleTest extends \PHPUnit\Framework\TestCase
         $output = "abc\033[1mdefghijklmnopqrstuvwxyz\033[22mabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxy...\033[0m";
         $this->assertSame($output, $this->console->prepare($input, false, 80, false, false, 0));
 
-        //$input = 'abcmdefghijklmnopqrstuvwxyz' . "\x03" . '1,8abcmdefghijklmnopqrstuvwxyz';
-        //$output = 'abcmdefghijklmnopqrstuvwxyz' . "\033[38;5;0;48;5;11m" . 'abcmdefghijklmnopqrstuvwxyz' . "\033[39;49m";
-        //$this->assertSame($output, $this->console->prepare($input, false, 80, false, false, 0));
-
         $input = 'abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz';
         $output = 'abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzab' . PHP_EOL . 'cdefghijklmnopqrstuvwxyz';
         $this->assertSame($output, $this->console->prepare($input, false, 80, true, false, 0));
@@ -144,6 +140,16 @@ class ConsoleTest extends \PHPUnit\Framework\TestCase
         $input = '0123456789\\';
         $output = '01234' . PHP_EOL . '56789' . PHP_EOL . '\\ ';
         $this->assertSame($output, $this->console->prepare($input, false, 5, true, false));
+    }
+
+    public function testPrepareOutputWithFormatter()
+    {
+        $bot = $this->createMock(Bot::class);
+        $formatter = new FormatterConsole;
+        $console = new Console($bot, $formatter);
+        $input = 'abcmdefghijklmnopqrstuvwxyz' . "\x03" . '1,8abcmdefghijklmnopqrstuvwxyz';
+        $output = 'abcmdefghijklmnopqrstuvwxyz' . "\033[38;5;0;48;5;11m" . 'abcmdefghijklmnopqrstuvwxyz' . "\033[39;49m";
+        $this->assertSame($output, $console->prepare($input, false, 80, false, false, 0));
     }
 
     public function testLen()
