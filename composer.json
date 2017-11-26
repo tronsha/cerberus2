@@ -29,11 +29,15 @@
   },
   "require-dev": {
     "phpunit/phpunit": "6.4.*",
-    "friendsofphp/php-cs-fixer": "2.*"
+    "friendsofphp/php-cs-fixer": "2.*",
+    "sebastianfeldmann/captainhook": "2.*"
   },
   "autoload": {
     "psr-4": {
       "Cerberus\\": "library/"
     }
+  },
+  "scripts": {
+    "post-install-cmd": "\\SebastianFeldmann\\CaptainHook\\Composer\\Cmd::install"
   }
 }
