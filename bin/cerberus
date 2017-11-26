@@ -40,5 +40,5 @@ if (true === file_exists('../vendor/autoload.php')) {
     exit;
 }
 
-$cerberus = new Bot;
-$cerberus->run();
+$app = new Bot;
+$app->run();
