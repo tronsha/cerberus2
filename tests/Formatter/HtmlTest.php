@@ -24,13 +24,13 @@ namespace Cerberus;
 
 use Cerberus\Formatter\FormatterFactory;
 
-class FormatterConsoleTest extends \PHPUnit\Framework\TestCase
+class HtmlTest extends \PHPUnit\Framework\TestCase
 {
     protected $formatter;
 
     protected function setUp()
     {
-        $this->formatter = FormatterFactory::console();
+        $this->formatter = FormatterFactory::html();
     }
 
     protected function tearDown()
@@ -38,111 +38,127 @@ class FormatterConsoleTest extends \PHPUnit\Framework\TestCase
         unset($this->formatter);
     }
 
-    public function testConsoleBold()
+    public function testHtmlBold()
     {
         $this->assertSame(
-            "\033[1mfoo\033[22m",
+            '<b style="font-weight: bold;">foo</b>',
             $this->formatter->bold("\x02foo\x02")
         );
         $this->assertSame(
-            "\033[1mfoo\033[22m",
+            '<b style="font-weight: bold;">foo</b>',
             $this->formatter->bold("\x02foo")
         );
     }
 
-    public function testConsoleUnderline()
+    public function testHtmlUnderline()
     {
         $this->assertSame(
-            "\033[4mfoo\033[24m",
+            '<u style="text-decoration: underline;">foo</u>',
             $this->formatter->underline("\x1Ffoo\x1F")
         );
         $this->assertSame(
-            "\033[4mfoo\033[24m",
+            '<u style="text-decoration: underline;">foo</u>',
             $this->formatter->underline("\x1Ffoo")
         );
     }
 
-    public function testConsoleColor()
+    public function testHtmlColor()
     {
         $this->assertSame(
-            "\033[38;5;15mfoo\033[39;49m",
+            '<span style="color: #FFFFFF;">foo</span>',
             $this->formatter->color("\x03" . '0foo' . "\x03")
         );
         $this->assertSame(
-            "\033[38;5;0mfoo\033[39;49m",
+            '<span style="color: #000000;">foo</span>',
             $this->formatter->color("\x03" . '1foo' . "\x03")
         );
         $this->assertSame(
-            "\033[38;5;4mfoo\033[39;49m",
+            '<span style="color: #00007F;">foo</span>',
             $this->formatter->color("\x03" . '2foo' . "\x03")
         );
         $this->assertSame(
-            "\033[38;5;2mfoo\033[39;49m",
+            '<span style="color: #009300;">foo</span>',
             $this->formatter->color("\x03" . '3foo' . "\x03")
         );
         $this->assertSame(
-            "\033[38;5;9mfoo\033[39;49m",
+            '<span style="color: #FF0000;">foo</span>',
             $this->formatter->color("\x03" . '4foo' . "\x03")
         );
         $this->assertSame(
-            "\033[38;5;1mfoo\033[39;49m",
+            '<span style="color: #7F0000;">foo</span>',
             $this->formatter->color("\x03" . '5foo' . "\x03")
         );
         $this->assertSame(
-            "\033[38;5;5mfoo\033[39;49m",
+            '<span style="color: #9C009C;">foo</span>',
             $this->formatter->color("\x03" . '6foo' . "\x03")
         );
         $this->assertSame(
-            "\033[38;5;3mfoo\033[39;49m",
+            '<span style="color: #FC7F00;">foo</span>',
             $this->formatter->color("\x03" . '7foo' . "\x03")
         );
         $this->assertSame(
-            "\033[38;5;11mfoo\033[39;49m",
+            '<span style="color: #FFFF00;">foo</span>',
             $this->formatter->color("\x03" . '8foo' . "\x03")
         );
         $this->assertSame(
-            "\033[38;5;10mfoo\033[39;49m",
+            '<span style="color: #00FC00;">foo</span>',
             $this->formatter->color("\x03" . '9foo' . "\x03")
         );
         $this->assertSame(
-            "\033[38;5;6mfoo\033[39;49m",
+            '<span style="color: #009393;">foo</span>',
             $this->formatter->color("\x03" . '10foo' . "\x03")
         );
         $this->assertSame(
-            "\033[38;5;14mfoo\033[39;49m",
+            '<span style="color: #00FFFF;">foo</span>',
             $this->formatter->color("\x03" . '11foo' . "\x03")
         );
         $this->assertSame(
-            "\033[38;5;12mfoo\033[39;49m",
+            '<span style="color: #0000FC;">foo</span>',
             $this->formatter->color("\x03" . '12foo' . "\x03")
         );
         $this->assertSame(
-            "\033[38;5;13mfoo\033[39;49m",
+            '<span style="color: #FF00FF;">foo</span>',
             $this->formatter->color("\x03" . '13foo' . "\x03")
         );
         $this->assertSame(
-            "\033[38;5;8mfoo\033[39;49m",
+            '<span style="color: #7F7F7F;">foo</span>',
             $this->formatter->color("\x03" . '14foo' . "\x03")
         );
         $this->assertSame(
-            "\033[38;5;7mfoo\033[39;49m",
+            '<span style="color: #D2D2D2;">foo</span>',
             $this->formatter->color("\x03" . '15foo' . "\x03")
         );
         $this->assertSame(
-            "\033[38;5;15;48;5;0mfoo\033[39;49m",
+            '<span style="color: #FFFFFF; background-color: #000000;">foo</span>',
             $this->formatter->color("\x03" . '0,1foo' . "\x03")
         );
         $this->assertSame(
-            "\033[38;5;15;48;5;0mfoo\033[39;49m",
+            '<span style="color: #FFFFFF; background-color: #000000;">foo</span>',
             $this->formatter->color("\x03" . '0,1foo')
         );
         $this->assertSame(
-            "\033[38;5;15;48;5;0mfoo\033[39;49mbar",
+            '<span style="color: #FFFFFF; background-color: #000000;">foo</span>bar',
             $this->formatter->color("\x03" . '0,1foo' . "\x03" . 'bar')
         );
         $this->assertSame(
-            "\033[38;5;15m,foo\033[39;49m",
+            '<span style="color: #FFFFFF;">,foo</span>',
             $this->formatter->color("\x03" . '0,foo' . "\x03")
+        );
+        $this->assertSame(
+            '<span style="color: #00007F; background-color: #00FFFF;">foo</span>bar<span style="color: #7F0000;">baz</span>',
+            $this->formatter->color("\x03" . '2,11foo' . "\x03" . 'bar' . "\x03" . '5baz' . "\x03")
+        );
+        $this->assertSame(
+            '<span style="color: #00007F;">foo</span><span style="color: #7F0000;">bar</span>',
+            $this->formatter->color("\x03" . '2foo' . "\x03" . "\x03" . '5bar' . "\x03")
+        );
+        $this->assertSame(
+            '<span style="color: #00007F; background-color: #00FFFF;">foo</span><span style="color: #7F0000; background-color: #00FFFF;">bar</span>',
+            $this->formatter->color("\x03" . '2,11foo' . "\x03" . '5bar' . "\x03")
+        );
+        $this->assertSame(
+            'foo',
+            $this->formatter->color("\x03" . 'foo' . "\x03")
         );
     }
 }
