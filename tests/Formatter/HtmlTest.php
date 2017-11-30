@@ -24,7 +24,7 @@ namespace Cerberus;
 
 use Cerberus\Formatter\FormatterFactory;
 
-class HtmlTest extends \PHPUnit\Framework\TestCase
+class FormatterHtmlTest extends \PHPUnit\Framework\TestCase
 {
     protected $formatter;
 

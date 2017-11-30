@@ -27,7 +27,7 @@ use Cerberus\Output\Console;
 use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Console\Output\StreamOutput;
 
-class ConsoleTest extends \PHPUnit\Framework\TestCase
+class OutputConsoleTest extends \PHPUnit\Framework\TestCase
 {
     protected $stream;
     protected $console;
