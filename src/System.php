@@ -38,12 +38,14 @@ class System
     public static function isExecAvailable(): bool
     {
         $available = true;
-        if (false === empty(ini_get('safe_mode'))) {
+        $safemode = ini_get('safe_mode');
+        if (false === empty($safemode)) {
             $available = false;
         } else {
             $disable = ini_get('disable_functions');
             $blacklist = ini_get('suhosin.executor.func.blacklist');
-            if (false === empty($disable . $blacklist)) {
+            $disableOrBlacklist = $disable . $blacklist;
+            if (false === empty($disableOrBlacklist)) {
                 $array = preg_split('/,\s*/', $disable . ',' . $blacklist);
                 if (true === in_array('exec', $array, true)) {
                     $available = false;
