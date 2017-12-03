@@ -48,8 +48,8 @@ Then, use the `install` command:
 ## Libraries
 
 * [Doctrine Database Abstraction Layer 2.5][6]
-* [Symfony Console Component 3.3][7]
-* [Symfony Translation Component 3.3][8]
+* [Symfony Console Component 3.4][7]
+* [Symfony Translation Component 3.4][8]
 
 ## Creator
 

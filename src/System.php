@@ -54,4 +54,14 @@ class System
         }
         return $available;
     }
+
+    /**
+     * @return int
+     */
+    public static function getConsoleColumns(): int
+    {
+        $matches = [];
+        preg_match('/columns\s([0-9]+);/', strtolower(exec('stty -a | grep columns')), $matches);
+        return (false === isset($matches[1]) || intval($matches[1]) <= 0) ? 0 : intval($matches[1]);
+    }
 }

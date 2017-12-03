@@ -114,12 +114,10 @@ class Console
             if (false === System::isExecAvailable()) {
                 return $escape ? $this->escape($text) : $text;
             }
-            $matches = [];
-            preg_match('/columns\s([0-9]+);/', strtolower(exec('stty -a | grep columns')), $matches);
-            if (isset($matches[1]) || intval($matches[1]) <= 0) {
+            $length = System::getConsoleColumns();
+            if (0 === $length) {
                 return $escape ? $this->escape($text) : $text;
             }
-            $length = intval($matches[1]);
         }
         $length -= $offset;
         if ($this->len($text) <= $length) {
