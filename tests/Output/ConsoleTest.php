@@ -49,11 +49,12 @@ class OutputConsoleTest extends \PHPUnit\Framework\TestCase
         $this->stream = null;
     }
 
-    public function invokeMethod(&$object, $methodName, ...$parameters)
+    public function invokeMethod(&$object, $methodName)
     {
         $reflection = new \ReflectionClass(get_class($object));
         $method = $reflection->getMethod($methodName);
         $method->setAccessible(true);
+        $parameters = array_slice(func_get_args(), 2);
         return $method->invokeArgs($object, $parameters);
     }
 
