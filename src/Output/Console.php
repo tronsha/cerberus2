@@ -97,33 +97,42 @@ class Console
      */
     public function prepare(string $text, bool $escape = true, $length = null, bool $break = true, bool $wordwrap = true, int $offset = 0): string
     {
-        if (isset($this->param) && is_array($this->param) && in_array('-noconsole', $this->param, true)) {
-            return $escape ? $this->escape($text) : $text;
+        if (!(isset($this->param) && is_array($this->param) && in_array('-noconsole', $this->param, true))) {
+            $text = $this->build($text, $length, $break, $wordwrap, $offset);
         }
-
+        return $escape ? $this->escape($text) : $text;
+    }
+    
+    /**
+     * @param string $text
+     * @param mixed $length
+     * @param bool $break
+     * @param bool $wordwrap
+     * @param int $offset
+     * @return string
+     */
+    private function build(string $text, $length = null, bool $break = true, bool $wordwrap = true, int $offset = 0): string
+    {  
         $text = $this->formatter->bold($text);
         $text = $this->formatter->underline($text);
         $text = $this->formatter->color($text);
-
         if (false === $length) {
             $text .= ('\\' === substr($text, -1)) ? ' ' : '';
-
-            return $escape ? $this->escape($text) : $text;
+            return $text;
         }
         if (null === $length) {
             if (false === System::isExecAvailable()) {
-                return $escape ? $this->escape($text) : $text;
+                return $text;
             }
             $length = System::getConsoleColumns();
             if (0 === $length) {
-                return $escape ? $this->escape($text) : $text;
+                return $text;
             }
         }
         $length -= $offset;
         if ($this->len($text) <= $length) {
             $text .= ('\\' === substr($text, -1)) ? ' ' : '';
-
-            return $escape ? $this->escape($text) : $text;
+            return $text;
         }
         $text = utf8_decode($text);
         if ($break) {
@@ -141,8 +150,7 @@ class Console
         }
         $text = utf8_encode($text);
         $text .= ('\\' === substr($text, -1)) ? ' ' : '';
-
-        return $escape ? $this->escape($text) : $text;
+        return $text;
     }
 
     /**

@@ -88,7 +88,7 @@ class OutputConsoleTest extends \PHPUnit\Framework\TestCase
         $input = 'abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz';
         $output = 'abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxy...';
         $this->assertSame($output, $this->console->prepare($input, false, 80, false, false, 0));
-
+        
         $input = "abc\033[1mdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz";
         $output = "abc\033[1mdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxy...\033[0m";
         $this->assertSame($output, $this->console->prepare($input, false, 80, false, false, 0));
@@ -140,6 +140,13 @@ class OutputConsoleTest extends \PHPUnit\Framework\TestCase
         $input = '0123456789\\';
         $output = '01234' . PHP_EOL . '56789' . PHP_EOL . '\\ ';
         $this->assertSame($output, $this->console->prepare($input, false, 5, true, false));
+    }
+    
+    public function testPrepareOutputMultibyte()
+    {
+        $input = 'abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstüvwxyzabcdefghijklmnopqrstuvwxyz';
+        $output = 'abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstüvwxy...';
+        $this->assertSame($output, $this->console->prepare($input, false, 80, false, false, 0));
     }
 
     public function testPrepareOutputWithFormatter()
