@@ -98,57 +98,63 @@ class Console
     public function prepare(string $text, bool $escape = true, $length = null, bool $break = true, bool $wordwrap = true, int $offset = 0): string
     {
         if (!(isset($this->param) && is_array($this->param) && in_array('-noconsole', $this->param, true))) {
-            $text = $this->build($text, $length, $break, $wordwrap, $offset);
+            $text = $this->formatter->bold($text);
+            $text = $this->formatter->underline($text);
+            $text = $this->formatter->color($text);
+            if (false !== $length) {
+                if (null === $length) {
+                    $length = $this->getColumns();
+                }
+                if ($length > $offset) {
+                    $text = $this->build($text, $length, $break, $wordwrap, $offset);
+                }
+            }
+            $text .= ('\\' === mb_substr($text, -1)) ? ' ' : '';
         }
-        return $escape ? $this->escape($text) : $text;
+        return true === $escape ? $this->escape($text) : $text;
     }
     
     /**
      * @param string $text
-     * @param mixed $length
+     * @param int $length
      * @param bool $break
      * @param bool $wordwrap
      * @param int $offset
      * @return string
      */
-    private function build(string $text, $length = null, bool $break = true, bool $wordwrap = true, int $offset = 0): string
-    {  
-        $text = $this->formatter->bold($text);
-        $text = $this->formatter->underline($text);
-        $text = $this->formatter->color($text);
-        if (false === $length) {
-            $text .= ('\\' === substr($text, -1)) ? ' ' : '';
-            return $text;
-        }
-        if (null === $length) {
-            if (false === System::isExecAvailable()) {
-                return $text;
-            }
-            $length = System::getConsoleColumns();
-            if (0 === $length) {
-                return $text;
-            }
-        }
+    private function build(string $text, int $length, bool $break, bool $wordwrap, int $offset): string
+    {
         $length -= $offset;
-        if ($this->len($text) <= $length) {
-            $text .= ('\\' === substr($text, -1)) ? ' ' : '';
-            return $text;
-        }
-        if ($break) {
-            if ($wordwrap) {
-                $text = $this->wordwrap($text, $length);
+        if ($this->len($text) > $length) {
+            if (true === $break) {
+                if (true === $wordwrap) {
+                    $text = $this->wordwrap($text, $length);
+                } else {
+                    $text = $this->split($text, $length, PHP_EOL);
+                }
+                $text = str_replace(PHP_EOL, PHP_EOL . str_repeat(' ', $offset), $text);
             } else {
-                $text = $this->split($text, $length, PHP_EOL);
-            }
-            $text = str_replace(PHP_EOL, PHP_EOL . str_repeat(' ', $offset), $text);
-        } else {
-            $text = $this->cut($text, $length - 3) . '...';
-            if (false !== strpos($text, "\033")) {
-                $text .= "\033[0m";
+                $text = $this->cut($text, $length - 3) . '...';
+                if (false !== mb_strpos($text, "\033")) {
+                    $text .= "\033[0m";
+                }
             }
         }
-        $text .= ('\\' === substr($text, -1)) ? ' ' : '';
         return $text;
+    }
+    
+    /**
+     * @return int
+     */
+    protected function getColumns(): int
+    {
+        // @codeCoverageIgnoreStart
+        $length = 0;
+        if (true === System::isExecAvailable()) {
+            $length = System::getConsoleColumns();
+        }
+        return $length;
+        // @codeCoverageIgnoreEnd
     }
 
     /**
