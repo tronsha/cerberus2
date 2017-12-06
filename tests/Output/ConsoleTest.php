@@ -147,6 +147,50 @@ class OutputConsoleTest extends \PHPUnit\Framework\TestCase
         $input = 'abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstüvwxyzabcdefghijklmnopqrstuvwxyz';
         $output = 'abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstüvwxy...';
         $this->assertSame($output, $this->console->prepare($input, false, 80, false, false, 0));
+        
+        $input = 'abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxüzabcdefghijklmnopqrstuvwxyz';
+        $output = 'abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxü...';
+        $this->assertSame($output, $this->console->prepare($input, false, 80, false, false, 0));
+        
+        $input = 'abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyüabcdefghijklmnopqrstuvwxyz';
+        $output = 'abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxy...';
+        $this->assertSame($output, $this->console->prepare($input, false, 80, false, false, 0));
+        
+        $input = 'abcdefghijklmnopqrstüvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz';
+        $output = 'abcdefghijklmnopqrstüvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzab' . PHP_EOL . 'cdefghijklmnopqrstuvwxyz';
+        $this->assertSame($output, $this->console->prepare($input, false, 80, true, false, 0));
+        
+        $input = 'abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzaücdefghijklmnopqrstuvwxyz';
+        $output = 'abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzaü' . PHP_EOL . 'cdefghijklmnopqrstuvwxyz';
+        $this->assertSame($output, $this->console->prepare($input, false, 80, true, false, 0));
+        
+        $input = 'abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabüdefghijklmnopqrstuvwxyz';
+        $output = 'abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzab' . PHP_EOL . 'üdefghijklmnopqrstuvwxyz';
+        $this->assertSame($output, $this->console->prepare($input, false, 80, true, false, 0));
+        
+        $input = 'abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstüvwxyz abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstuvwxyz';
+        $output = 'abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstüvwxyz abcdefghijklmnopqrstuvwxyz' . PHP_EOL . 'abcdefghijklmnopqrstuvwxyz';
+        $this->assertSame($output, $this->console->prepare($input, false, 80, true, true, 0));
+        
+        $input = 'abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstuvwxyü abcdefghijklmnopqrstuvwxyz';
+        $output = 'abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstuvwxyü' . PHP_EOL . 'abcdefghijklmnopqrstuvwxyz';
+        $this->assertSame($output, $this->console->prepare($input, false, 80, true, true, 0));
+        
+        $input = 'abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstuvwxyz übcdefghijklmnopqrstuvwxyz';
+        $output = 'abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstuvwxyz' . PHP_EOL . 'übcdefghijklmnopqrstuvwxyz';
+        $this->assertSame($output, $this->console->prepare($input, false, 80, true, true, 0));
+        
+        $input = "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstüvwxyzabcdefghijklmnopqrstu \033[1mabcde fghijklmnopqrstuvwxyz";
+        $output = "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstüvwxyzabcdefghijklmnopqrstu \033[1mabcde" . PHP_EOL . 'fghijklmnopqrstuvwxyz';
+        $this->assertSame($output, $this->console->prepare($input, false, 80, true, true, 0));
+        
+        $input = "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstü \033[1mabcde fghijklmnopqrstuvwxyz";
+        $output = "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstü \033[1mabcde" . PHP_EOL . 'fghijklmnopqrstuvwxyz';
+        $this->assertSame($output, $this->console->prepare($input, false, 80, true, true, 0));
+        
+        $input = "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstu \033[1mabcde üghijklmnopqrstuvwxyz";
+        $output = "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstu \033[1mabcde" . PHP_EOL . 'üghijklmnopqrstuvwxyz';
+        $this->assertSame($output, $this->console->prepare($input, false, 80, true, true, 0));
     }
 
     public function testPrepareOutputWithFormatter()

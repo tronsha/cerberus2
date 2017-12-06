@@ -134,7 +134,6 @@ class Console
             $text .= ('\\' === substr($text, -1)) ? ' ' : '';
             return $text;
         }
-        $text = utf8_decode($text);
         if ($break) {
             if ($wordwrap) {
                 $text = $this->wordwrap($text, $length);
@@ -148,7 +147,6 @@ class Console
                 $text .= "\033[0m";
             }
         }
-        $text = utf8_encode($text);
         $text .= ('\\' === substr($text, -1)) ? ' ' : '';
         return $text;
     }
@@ -159,7 +157,7 @@ class Console
      */
     protected function len(string $text): int
     {
-        return strlen(preg_replace("/\033\[[0-9;]+m/", '', $text));
+        return mb_strlen(preg_replace("/\033\[[0-9;]+m/", '', $text));
     }
 
     /**
@@ -220,9 +218,10 @@ class Console
         $output = '';
         $count = 0;
         $ignore = false;
-        $len = strlen($text);
+        $len = mb_strlen($text);
+        $textArray = preg_split('//u', $text, -1, PREG_SPLIT_NO_EMPTY);
         for ($i = 0; $i < $len; $i++) {
-            $output .= $this->count($text[$i], $count, $ignore);
+            $output .= $this->count($textArray[$i], $count, $ignore);
             if ($count === $length) {
                 $count = 0;
                 $output .= $end;
@@ -246,9 +245,10 @@ class Console
         $output = '';
         $count = 0;
         $ignore = false;
-        $len = strlen($text);
+        $len = mb_strlen($text);
+        $textArray = preg_split('//u', $text, -1, PREG_SPLIT_NO_EMPTY);
         for ($i = 0; $i < $len; $i++) {
-            $output .= $this->count($text[$i], $count, $ignore);
+            $output .= $this->count($textArray[$i], $count, $ignore);
             if ($count === $length) {
                 break;
             }
