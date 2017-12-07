@@ -34,7 +34,11 @@ class OutputConsoleTest extends \PHPUnit\Framework\TestCase
 
     protected function setUp()
     {
+        $system = $this->createMock(System::class);
+        $system->method('isExecAvailable')->will($this->returnValue(true));
+        $system->method('getConsoleColumns')->will($this->returnValue(80));
         $bot = $this->createMock(Bot::class);
+        $bot->method('getSystem')->will($this->returnValue($system));
         $formatter = $this->createMock(FormatterConsole::class);
         $formatter->method('bold')->will($this->returnArgument(0));
         $formatter->method('underline')->will($this->returnArgument(0));
@@ -49,12 +53,11 @@ class OutputConsoleTest extends \PHPUnit\Framework\TestCase
         $this->stream = null;
     }
 
-    public function invokeMethod(&$object, $methodName)
+    public function invokeMethod(&$object, $methodName, ...$parameters)
     {
         $reflection = new \ReflectionClass(get_class($object));
         $method = $reflection->getMethod($methodName);
         $method->setAccessible(true);
-        $parameters = array_slice(func_get_args(), 2);
         return $method->invokeArgs($object, $parameters);
     }
 
@@ -191,6 +194,26 @@ class OutputConsoleTest extends \PHPUnit\Framework\TestCase
         $input = "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstu \033[1mabcde üghijklmnopqrstuvwxyz";
         $output = "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstu \033[1mabcde" . PHP_EOL . 'üghijklmnopqrstuvwxyz';
         $this->assertSame($output, $this->console->prepare($input, false, 80, true, true, 0));
+    }
+    
+    public function testPrepareOutputSystem()
+    {
+        $input = 'abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz';
+        $output = 'abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxy...';
+                   
+        $this->assertSame($output, $this->console->prepare($input, false, null, false, false, 0));
+        
+        $input = 'abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz';
+        $output = 'abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzab' . PHP_EOL . 'cdefghijklmnopqrstuvwxyz';
+        $this->assertSame($output, $this->console->prepare($input, false, null, true, false, 0));
+        
+        $input = 'abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstuvwxyz';
+        $output = 'abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstuvwxyz' . PHP_EOL . 'abcdefghijklmnopqrstuvwxyz';
+        $this->assertSame($output, $this->console->prepare($input, false, null, true, true, 0));
+        
+        $input = "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstu \033[1mabcde fghijklmnopqrstuvwxyz";
+        $output = "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstu \033[1mabcde" . PHP_EOL . 'fghijklmnopqrstuvwxyz';
+        $this->assertSame($output, $this->console->prepare($input, false, null, true, true, 0));
     }
 
     public function testPrepareOutputWithFormatter()

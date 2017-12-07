@@ -53,12 +53,28 @@ class Console
      */
     public function __construct(Bot $bot, FormatterConsole $formatter)
     {
-        $this->bot = $bot;
+        $this->setBot($bot);
         $this->formatter = $formatter;
         $this->output = new ConsoleOutput;
         $this->output->getFormatter()->setStyle('timestamp', new OutputFormatterStyle('yellow'));
         $this->output->getFormatter()->setStyle('input', new OutputFormatterStyle('cyan'));
         $this->output->getFormatter()->setStyle('output', new OutputFormatterStyle('magenta'));
+    }
+    
+    /**
+     * @param Bot $bot
+     */
+    public function setBot(Bot $bot)
+    {
+        $this->bot = $bot;
+    }  
+    
+    /**
+     * @return Bot
+     */
+    public function getBot(): Bot
+    {
+        return $this->bot;
     }
 
     /**
@@ -148,13 +164,11 @@ class Console
      */
     protected function getColumns(): int
     {
-        // @codeCoverageIgnoreStart
         $length = 0;
-        if (true === System::isExecAvailable()) {
-            $length = System::getConsoleColumns();
+        if (true === $this->getBot()->getSystem()->isExecAvailable()) {
+            $length = $this->getBot()->getSystem()->getConsoleColumns();
         }
         return $length;
-        // @codeCoverageIgnoreEnd
     }
 
     /**

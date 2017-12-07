@@ -35,7 +35,7 @@ class System
     /**
      * @return bool
      */
-    public static function isExecAvailable(): bool
+    public function isExecAvailable(): bool
     {
         $available = true;
         $safemode = ini_get('safe_mode');
@@ -58,7 +58,7 @@ class System
     /**
      * @return int
      */
-    public static function getConsoleColumns(): int
+    public function getConsoleColumns(): int
     {
         $matches = [];
         preg_match('/columns\s([0-9]+);/', strtolower(exec('stty -a | grep columns')), $matches);
