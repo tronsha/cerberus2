@@ -39,6 +39,8 @@ class Bot
 {
     private $botId = 0;
     
+    private $param = null;
+
     private $caller = null;
     private $config = null;
     private $console = null;
@@ -87,6 +89,31 @@ class Bot
     public function getBotId(): int
     {
         return $this->botId;
+    }
+    
+    /**
+     * @param array $param
+     */
+    public function setParam($param)
+    {
+        var_dump($param);
+        $count = count($param);
+        for ($i = 1; $i < $count; $i++) {
+            $parts = explode('=', $param[$i]);
+            $this->param[$parts[0]] = $parts[1] ?? '';
+        }
+    }
+    
+    /**
+     * @return mixed
+     */
+    public function getParam($name)
+    {
+        $value = null;
+        if (isset($this->param[$name])) {
+            $value = $this->param[$name];
+        }
+        return $value;
     }
     
     /**

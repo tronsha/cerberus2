@@ -225,7 +225,7 @@ class OutputConsoleTest extends \PHPUnit\Framework\TestCase
         $output = 'abcmdefghijklmnopqrstuvwxyz' . "\033[38;5;0;48;5;11m" . 'abcmdefghijklmnopqrstuvwxyz' . "\033[39;49m";
         $this->assertSame($output, $console->prepare($input, false, 80, false, false, 0));
     }
-
+ 
     public function testLen()
     {
         $this->assertSame(4, strlen('test'));

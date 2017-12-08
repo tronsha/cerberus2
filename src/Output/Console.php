@@ -24,7 +24,6 @@ namespace Cerberus\Output;
 
 use Cerberus\Bot;
 use Cerberus\Formatter\Console as FormatterConsole;
-use Cerberus\System;
 use Exception;
 use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
@@ -67,7 +66,7 @@ class Console
     public function setBot(Bot $bot)
     {
         $this->bot = $bot;
-    }  
+    }
     
     /**
      * @return Bot
@@ -113,7 +112,7 @@ class Console
      */
     public function prepare(string $text, bool $escape = true, $length = null, bool $break = true, bool $wordwrap = true, int $offset = 0): string
     {
-        if (!(isset($this->param) && is_array($this->param) && in_array('-noconsole', $this->param, true))) {
+        if (null === $this->getBot()->getParam('-noconsole')) {
             $text = $this->formatter->bold($text);
             $text = $this->formatter->underline($text);
             $text = $this->formatter->color($text);
