@@ -45,6 +45,7 @@ class Bot
     private $config = null;
     private $console = null;
     private $database = null;
+    private $irc = null;
     private $system = null;
 
     /**
@@ -194,5 +195,21 @@ class Bot
     public function getConfig(): Config
     {
         return $this->config;
+    }
+
+    /**
+     * @param Irc $irc
+     */
+    public function setIrc(Irc $irc)
+    {
+        $this->irc = $irc;
+    }
+
+    /**
+     * @return Irc
+     */
+    public function getIrc(): Irc
+    {
+        return $this->irc;
     }
 }
