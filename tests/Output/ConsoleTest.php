@@ -226,6 +226,17 @@ class OutputConsoleTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($output, $console->prepare($input, false, 80, false, false, 0));
     }
  
+    public function testPrepareOutputNoconsole()
+    {
+        $bot = $this->createMock(Bot::class);
+        $bot->method('getParam')->will($this->returnValue(''));
+        $formatter = new FormatterConsole;
+        $console = new Console($bot, $formatter);
+        $input = 'abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz';
+        $output = 'abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz';
+        $this->assertSame($output, $console->prepare($input, false, 80, false, false, 0));
+    }
+
     public function testLen()
     {
         $this->assertSame(4, strlen('test'));
