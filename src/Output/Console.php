@@ -44,7 +44,6 @@ class Console
     protected $formatter;
     protected $output;
     protected $return = false;
-    protected $param = null;
 
     /**
      * @param Bot $bot
@@ -74,14 +73,6 @@ class Console
     public function getBot(): Bot
     {
         return $this->bot;
-    }
-
-    /**
-     * @param array $argv
-     */
-    public function setParam(array $argv = [])
-    {
-        $this->param = $argv;
     }
 
     /**
