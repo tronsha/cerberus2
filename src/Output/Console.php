@@ -28,6 +28,7 @@ use Exception;
 use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Output\ConsoleOutput;
+use Symfony\Component\Console\Output\StreamOutput;
 
 /**
  * Class Console
@@ -48,12 +49,13 @@ class Console
     /**
      * @param Bot $bot
      * @param FormatterConsole $formatter
+     * @param Output $output
      */
-    public function __construct(Bot $bot, FormatterConsole $formatter)
+    public function __construct(Bot $bot, FormatterConsole $formatter, StreamOutput $output = null)
     {
         $this->setBot($bot);
         $this->formatter = $formatter;
-        $this->output = new ConsoleOutput;
+        $this->output = $output ?? new ConsoleOutput;
         $this->output->getFormatter()->setStyle('timestamp', new OutputFormatterStyle('yellow'));
         $this->output->getFormatter()->setStyle('input', new OutputFormatterStyle('cyan'));
         $this->output->getFormatter()->setStyle('output', new OutputFormatterStyle('magenta'));

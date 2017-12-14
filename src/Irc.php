@@ -32,5 +32,4 @@ namespace Cerberus;
  */
 class Irc
 {
-
 }

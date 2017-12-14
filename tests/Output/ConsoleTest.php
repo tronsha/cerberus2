@@ -289,4 +289,43 @@ class OutputConsoleTest extends \PHPUnit\Framework\TestCase
             $this->assertSame('Length cannot be negative or null.', $e->getMessage());
         }
     }
+    
+    public function testWriteln()
+    {
+        $bot = $this->createMock(Bot::class);
+        $formatter = $this->createMock(FormatterConsole::class);
+        $output = new StreamOutput($this->stream);
+        $console = new Console($bot, $formatter, $output);
+        $console->writeln('foo');
+        rewind($output->getStream());
+        $this->assertSame('foo' . PHP_EOL, stream_get_contents($output->getStream()));
+    }
+    
+    /**
+     * @dataProvider writelnAndPrepareProvider
+     */
+    public function testWritelnAndPrepare($expected, $text)
+    {
+        $bot = $this->createMock(Bot::class);
+        $formatter = new FormatterConsole;
+        $output = new StreamOutput($this->stream);
+        $console = new Console($bot, $formatter, $output);
+        $console->writeln($console->prepare($text, true, 80, true, true, 0));
+        rewind($output->getStream());
+        $this->assertSame($expected . PHP_EOL, stream_get_contents($output->getStream()));
+    }
+    
+    public function writelnAndPrepareProvider()
+    {
+        return [
+            [
+                'abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstuvwxyz' . PHP_EOL . 'abcdefghijklmnopqrstuvwxyz',
+                'abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstuvwxyz'
+            ],
+            [
+                '<error>some error</error>',
+                '<error>some error</error>'
+            ],
+        ];
+    }
 }
