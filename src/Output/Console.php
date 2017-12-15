@@ -49,16 +49,13 @@ class Console
     /**
      * @param Bot $bot
      * @param FormatterConsole $formatter
-     * @param Output $output
+     * @param StreamOutput $output
      */
     public function __construct(Bot $bot, FormatterConsole $formatter, StreamOutput $output = null)
     {
         $this->setBot($bot);
-        $this->formatter = $formatter;
-        $this->output = $output ?? new ConsoleOutput;
-        $this->output->getFormatter()->setStyle('timestamp', new OutputFormatterStyle('yellow'));
-        $this->output->getFormatter()->setStyle('input', new OutputFormatterStyle('cyan'));
-        $this->output->getFormatter()->setStyle('output', new OutputFormatterStyle('magenta'));
+        $this->setFormatter($formatter);
+        $this->setOutput($output ?? new ConsoleOutput);
     }
     
     /**
@@ -75,6 +72,41 @@ class Console
     public function getBot(): Bot
     {
         return $this->bot;
+    }
+
+    /**
+     * @param FormatterConsole $formatter
+     */
+    public function setFormatter(FormatterConsole $formatter)
+    {
+        $this->formatter = $formatter;
+    }
+
+    /**
+     * @return FormatterConsole
+     */
+    public function getFormatter(): FormatterConsole
+    {
+        return $this->formatter;
+    }
+
+    /**
+     * @param StreamOutput $output
+     */
+    public function setOutput(StreamOutput $output)
+    {
+        $output->getFormatter()->setStyle('timestamp', new OutputFormatterStyle('yellow'));
+        $output->getFormatter()->setStyle('input', new OutputFormatterStyle('cyan'));
+        $output->getFormatter()->setStyle('output', new OutputFormatterStyle('magenta'));
+        $this->output = $output;
+    }
+
+    /**
+     * @return StreamOutput
+     */
+    public function getOutput(): StreamOutput
+    {
+        return $this->output;
     }
 
     /**
@@ -106,9 +138,9 @@ class Console
     public function prepare(string $text, bool $escape = true, $length = null, bool $break = true, bool $wordwrap = true, int $offset = 0): string
     {
         if (null === $this->getBot()->getParam('-noconsole')) {
-            $text = $this->formatter->bold($text);
-            $text = $this->formatter->underline($text);
-            $text = $this->formatter->color($text);
+            $text = $this->getFormatter()->bold($text);
+            $text = $this->getFormatter()->underline($text);
+            $text = $this->getFormatter()->color($text);
             if (false !== $length) {
                 if (null === $length) {
                     $length = $this->getColumns();
