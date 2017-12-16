@@ -25,6 +25,7 @@ namespace Cerberus;
 use Cerberus\Formatter\Console as FormatterConsole;
 use Cerberus\Output\Console;
 use Symfony\Component\Console\Formatter\OutputFormatter;
+use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\StreamOutput;
 
 class OutputConsoleTest extends \PHPUnit\Framework\TestCase
@@ -327,5 +328,16 @@ class OutputConsoleTest extends \PHPUnit\Framework\TestCase
                 '<error>some error</error>'
             ],
         ];
+    }
+
+    public function testSetterAndGetter()
+    {
+        $bot = $this->createMock(Bot::class);
+        $formatter = $this->createMock(FormatterConsole::class);
+        $output = new ConsoleOutput();
+        $console = new Console($bot, $formatter, $output);
+        $this->assertInstanceOf(Bot::class, $console->getBot());
+        $this->assertInstanceOf(FormatterConsole::class, $console->getFormatter());
+        $this->assertInstanceOf(StreamOutput::class, $console->getOutput());
     }
 }
