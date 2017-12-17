@@ -246,14 +246,44 @@ class OutputConsoleTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(4, $this->invokeMethod($this->console, 'len', "\033[1mtest\033[0m"));
     }
 
-    public function testCut()
+    public function testSubstr()
     {
         $this->assertSame('foo', substr('foobar', 0, 3));
-        $this->assertSame('foo', $this->invokeMethod($this->console, 'cut', 'foobar', 3));
         $this->assertSame("\033[1", substr("\033[1mfoobar\033[0m", 0, 3));
-        $this->assertSame("\033[1mfoo", $this->invokeMethod($this->console, 'cut', "\033[1mfoobar\033[0m", 3));
-        $this->assertSame("\033[1mfoobar", $this->invokeMethod($this->console, 'cut', "\033[1mfoobar\033[0m", 6));
-        $this->assertSame("foo\033[1mbar", $this->invokeMethod($this->console, 'cut', "foo\033[1mbar\033[0m", 6));
+    }
+
+    /**
+     * @dataProvider cutProvider
+     */
+    public function testCut($expected, $text, $length)
+    {
+        $this->assertSame($expected, $this->invokeMethod($this->console, 'cut', $text, $length));
+    }
+
+    public function cutProvider()
+    {
+        return [
+            [
+                'foo',
+                'foobar',
+                3
+            ],
+            [
+                "\033[1mfoo",
+                "\033[1mfoobar\033[0m",
+                3
+            ],
+            [
+                "\033[1mfoobar",
+                "\033[1mfoobar\033[0m",
+                6
+            ],
+            [
+                "foo\033[1mbar",
+                "foo\033[1mbar\033[0m",
+                6
+            ],
+        ];
     }
 
     public function testWordwrap()
