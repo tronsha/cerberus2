@@ -282,12 +282,21 @@ class OutputConsoleTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    public function testSplit()
+    /**
+     * @dataProvider splitProvider
+     */
+    public function testSplit($expected, $check, $text, $length)
     {
-        $this->assertSame("foo b\nar ba\nz\n", chunk_split('foo bar baz', 5, "\n"));
-        $this->assertSame("foo \033\n[1mba\nr baz\n", chunk_split("foo \033[1mbar baz", 5, "\n"));
-        $this->assertSame("foo b\nar ba\nz", $this->invokeMethod($this->console, 'split', 'foo bar baz', 5));
-        $this->assertSame("foo \033[1mb\nar ba\nz", $this->invokeMethod($this->console, 'split', "foo \033[1mbar baz", 5));
+        $this->assertSame($expected, $this->invokeMethod($this->console, 'split', $text, $length));
+        $this->assertSame($check, chunk_split($text, $length, "\n"));
+    }
+    
+    public function splitProvider()
+    {
+        return [
+            ["foo b\nar ba\nz", "foo b\nar ba\nz\n", 'foo bar baz', 5],
+            ["foo \033[1mb\nar ba\nz", "foo \033\n[1mba\nr baz\n", "foo \033[1mbar baz", 5],
+        ];
     }
 
     public function testException()
