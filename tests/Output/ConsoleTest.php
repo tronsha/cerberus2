@@ -249,17 +249,10 @@ class OutputConsoleTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider cutProvider
      */
-    public function testCut($expected, $unused, $text, $length)
+    public function testCut($expected, $check, $text, $length)
     {
         $this->assertSame($expected, $this->invokeMethod($this->console, 'cut', $text, $length));
-    }
-
-    /**
-     * @dataProvider cutProvider
-     */
-    public function testSubstr($unused, $expected, $text, $length)
-    {
-        $this->assertSame($expected, substr($text, 0, $length));
+        $this->assertSame($check, substr($text, 0, $length));
     }
 
     public function cutProvider()
@@ -272,12 +265,21 @@ class OutputConsoleTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    public function testWordwrap()
+    /**
+     * @dataProvider wordwrapProvider
+     */
+    public function testWordwrap($expected, $check, $text, $length)
     {
-        $this->assertSame("foo bar\nbaz", wordwrap('foo bar baz', 10, "\n"));
-        $this->assertSame("foo\n\033[1mbar\nbaz", wordwrap("foo \033[1mbar baz", 10, "\n"));
-        $this->assertSame("foo bar\nbaz", $this->invokeMethod($this->console, 'wordwrap', 'foo bar baz', 10));
-        $this->assertSame("foo \033[1mbar\nbaz", $this->invokeMethod($this->console, 'wordwrap', "foo \033[1mbar baz", 10));
+        $this->assertSame($expected, $this->invokeMethod($this->console, 'wordwrap', $text, $length));
+        $this->assertSame($check, wordwrap($text, $length, "\n"));
+    }
+    
+    public function wordwrapProvider()
+    {
+        return [
+            ["foo bar\nbaz", "foo bar\nbaz", 'foo bar baz', 10],
+            ["foo \033[1mbar\nbaz", "foo\n\033[1mbar\nbaz", "foo \033[1mbar baz", 10],
+        ];
     }
 
     public function testSplit()
