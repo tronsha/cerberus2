@@ -299,23 +299,25 @@ class OutputConsoleTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    public function testException()
+    /**
+     * @dataProvider exceptionProvider
+     */
+    public function testException($method)
     {
         try {
-            $this->invokeMethod($this->console, 'wordwrap', 0, -1);
+            $this->invokeMethod($this->console, $method, 0, -1);
         } catch (\Exception $e) {
             $this->assertSame('Length cannot be negative or null.', $e->getMessage());
         }
-        try {
-            $this->invokeMethod($this->console, 'split', 0, -1);
-        } catch (\Exception $e) {
-            $this->assertSame('Length cannot be negative or null.', $e->getMessage());
-        }
-        try {
-            $this->invokeMethod($this->console, 'cut', 0, -1);
-        } catch (\Exception $e) {
-            $this->assertSame('Length cannot be negative or null.', $e->getMessage());
-        }
+    }
+    
+    public function exceptionProvider()
+    {
+        return [
+            ['wordwrap'],
+            ['split'],
+            ['cut'],
+        ];
     }
     
     public function testWriteln()
