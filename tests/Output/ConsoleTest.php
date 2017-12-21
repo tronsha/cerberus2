@@ -247,6 +247,29 @@ class OutputConsoleTest extends \PHPUnit\Framework\TestCase
     }
     
     /**
+     * @dataProvider countProvider
+     */
+    public function testCount($char, $count, $ignore, $expectedCount, $expectedIgnore)
+    {
+        $this->assertSame($char, $this->console->count($char, $count, $ignore));
+        $this->assertSame($expectedCount, $count);
+        $this->assertSame($expectedIgnore, $ignore);
+    }
+    
+    public function countProvider()
+    {
+        return [
+            ['x', 1, false, 2, false],
+            ['m', 2, false, 3, false],
+            ["\033", 3, false, 3, true],
+            ['[', 3, true, 3, true],
+            ['1', 3, true, 3, true],
+            ['m', 3, true, 3, false],
+            ['x', 3, false, 4, false],
+        ];
+    }
+    
+    /**
      * @dataProvider cutProvider
      */
     public function testCut($expected, $check, $text, $length)

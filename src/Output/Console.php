@@ -307,7 +307,7 @@ class Console
      * @param bool $ignore
      * @return string
      */
-    protected function count(string $char, int &$count, bool &$ignore): string
+    public function count(string $char, int &$count, bool &$ignore): string
     {
         if ("\033" === $char) {
             $ignore = true;
