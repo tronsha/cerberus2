@@ -238,12 +238,21 @@ class OutputConsoleTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($output, $console->prepare($input, false, 80, false, false, 0));
     }
 
-    public function testLen()
+    /**
+     * @dataProvider lenProvider
+     */
+    public function testLen($expected, $check, $text)
     {
-        $this->assertSame(4, strlen('test'));
-        $this->assertSame(12, strlen("\033[1mtest\033[0m"));
-        $this->assertSame(4, $this->invokeMethod($this->console, 'len', 'test'));
-        $this->assertSame(4, $this->invokeMethod($this->console, 'len', "\033[1mtest\033[0m"));
+        $this->assertSame($expected, $this->invokeMethod($this->console, 'len', $text));
+        $this->assertSame($check, strlen($text));
+    }
+    
+    public function lenProvider()
+    {
+        return [
+            [4, 4, 'test'],
+            [4, 12, "\033[1mtest\033[0m"],
+        ];
     }
     
     /**
