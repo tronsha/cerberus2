@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /*
  * Cerberus IRCBot
@@ -66,6 +66,7 @@ class Bot
         //$this->setConfig(new Config);
         $this->setConsole(new Console($this, FormatterFactory::console()));
         $this->setDatabase(new Database($this));
+        $this->setIrc(new Irc($this));
     }
 
     /**
@@ -73,6 +74,7 @@ class Bot
      */
     public function run()
     {
+        $this->getIrc()->run();
         $this->getConsole()->writeln('<error>test</error>');
     }
     
@@ -97,7 +99,6 @@ class Bot
      */
     public function setParam($param)
     {
-        var_dump($param);
         $count = count($param);
         for ($i = 1; $i < $count; $i++) {
             $parts = explode('=', $param[$i]);

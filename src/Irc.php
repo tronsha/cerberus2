@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /*
  * Cerberus IRCBot
@@ -32,4 +32,36 @@ namespace Cerberus;
  */
 class Irc
 {
+    protected $bot = null;
+
+    /**
+     * @param Bot $bot
+     */
+    public function __construct(Bot $bot = null)
+    {
+        $this->setBot($bot);
+    }
+
+    /**
+     * @param Bot $bot
+     */
+    public function setBot($bot)
+    {
+        $this->bot = $bot;
+    }
+    
+    /**
+     * @return \Cerberus\Bot
+     */
+    public function getBot(): Bot
+    {
+        return $this->bot;
+    }
+    
+    /**
+     * 
+     */
+    public function run() 
+    {
+    }
 }
