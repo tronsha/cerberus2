@@ -20,7 +20,7 @@ declare(strict_types=1);
  * with this program; if not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Cerberus;
+namespace Cerberus\Event;
 
 /**
  * Class Event
@@ -30,45 +30,9 @@ namespace Cerberus;
  * @link https://github.com/tronsha/cerberus Project on GitHub
  * @license http://www.gnu.org/licenses/gpl-3.0 GNU General Public License
  */
-class Event
+class EventOnConnect
 {
-    protected $bot = null;
-
-    /**
-     * @param Bot $bot
-     */
-    public function __construct(Bot $bot = null)
+    public function onConnect()
     {
-        $this->setBot($bot);
-    }
-
-    /**
-     * @param Bot $bot
-     */
-    public function setBot($bot)
-    {
-        $this->bot = $bot;
-    }
-    
-    /**
-     * @return \Cerberus\Bot
-     */
-    public function getBot(): Bot
-    {
-        return $this->bot;
-    }
-
-    /**
-     * @param string $name
-     * @param array $arguments
-     * @return mixed
-     */
-    public function __call(string $name, array $arguments)
-    {
-        try {
-            return $this->getBot()->getCaller()->call('\Cerberus\Event\Event', $name, $arguments);
-        } catch (Exception $e) {
-            $this->error($e->getMessage());
-        }
     }
 }

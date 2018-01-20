@@ -33,23 +33,6 @@ namespace Cerberus;
 class Caller
 {
     protected $classes = [];
-    protected $namespace = null;
-
-    /**
-     * @param string $namespace
-     */
-    protected function setNamespace($namespace)
-    {
-        $this->namespace = $namespace;
-    }
-
-    /**
-     * @return string
-     */
-    protected function getNamespace(): string
-    {
-        return $this->namespace;
-    }
 
     /**
      * @param string $namespace
@@ -57,27 +40,27 @@ class Caller
      * @param array $arguments
      * @return mixed
      */
-    public function call($namespace, $name, $arguments)
+    public function call(string $namespace, string $name, array $arguments)
     {
-        $this->setNamespace($namespace);
-        $class = $this->getClass($name);
+        $class = $this->getClass($namespace, $name);
         if (null !== $class) {
             return call_user_func_array([$class, $name], $arguments);
         }
     }
 
     /**
+     * @param string $namespace
      * @param string $name
      * @return object|null
      */
-    public function getClass($name)
+    public function getClass(string $namespace, string $name)
     {
         $key = strtolower($name);
         if (!array_key_exists($key, $this->classes)) {
-            return $this->loadClass($name);
+            return $this->loadClass($namespace, $name);
         }
         $class = $this->classes[$key];
-        $className = $this->getNamespace() . ucfirst($name);
+        $className = $namespace . ucfirst($name);
         if (!is_a($class, $className)) {
             return null;
         }
@@ -85,13 +68,14 @@ class Caller
     }
 
     /**
+     * @param string $namespace
      * @param string $name
      * @return mixed
      */
-    protected function loadClass($name)
+    protected function loadClass(string $namespace, string $name)
     {
         $key = strtolower($name);
-        $className = $this->getNamespace() . ucfirst($name);
+        $className = $namespace . ucfirst($name);
         $this->classes[$key] = new $className($this);
         return $this->classes[$key];
     }

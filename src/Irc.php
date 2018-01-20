@@ -57,11 +57,17 @@ class Irc
     {
         return $this->bot;
     }
+
+    private function connect()
+    {
+        $this->getBot()->getEvent()->onConnect();
+    }
     
     /**
-     * 
+     *
      */
-    public function run() 
+    public function run()
     {
+        $this->connect();
     }
 }
