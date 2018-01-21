@@ -30,7 +30,7 @@ namespace Cerberus;
  * @link https://github.com/tronsha/cerberus Project on GitHub
  * @license http://www.gnu.org/licenses/gpl-3.0 GNU General Public License
  */
-class Event
+class Events
 {
     protected $bot = null;
 
@@ -66,7 +66,7 @@ class Event
     public function __call(string $name, array $arguments)
     {
         try {
-            return $this->getBot()->getCaller()->call('\Cerberus\Event\Event', $name, $arguments);
+            return $this->getBot()->getCaller()->call('\Cerberus\Events\Event', $name, $arguments);
         } catch (Exception $e) {
             $this->error($e->getMessage());
         }

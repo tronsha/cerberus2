@@ -45,7 +45,7 @@ class Bot
     private $config = null;
     private $console = null;
     private $database = null;
-    private $event = null;
+    private $events = null;
     private $irc = null;
     private $system = null;
 
@@ -68,7 +68,7 @@ class Bot
         $this->setConsole(new Console($this, FormatterFactory::console()));
         $this->setDatabase(new Database($this));
         $this->setIrc(new Irc($this));
-        $this->setEvent(new Event($this));
+        $this->setEvents(new Events($this));
     }
 
     /**
@@ -185,19 +185,19 @@ class Bot
     }
 
     /**
-     * @param Event $event
+     * @param Events $events
      */
-    public function setEvent(Event $event)
+    public function setEvents(Events $events)
     {
-        $this->event = $event;
+        $this->events = $events;
     }
 
     /**
-     * @return Event
+     * @return Events
      */
-    public function getEvent(): Event
+    public function getEvents(): Events
     {
-        return $this->event;
+        return $this->events;
     }
     
     /**

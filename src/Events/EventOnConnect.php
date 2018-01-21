@@ -20,7 +20,7 @@ declare(strict_types=1);
  * with this program; if not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Cerberus\Event;
+namespace Cerberus\Events;
 
 /**
  * Class Event

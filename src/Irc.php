@@ -60,7 +60,7 @@ class Irc
 
     private function connect()
     {
-        $this->getBot()->getEvent()->onConnect();
+        $this->getBot()->getEvents()->onConnect();
     }
     
     /**
