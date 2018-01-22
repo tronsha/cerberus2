@@ -33,6 +33,31 @@ namespace Cerberus;
 class Caller
 {
     protected $classes = [];
+    protected $bot = null;
+
+    /**
+     * @param Bot $bot
+     */
+    public function __construct(Bot $bot = null)
+    {
+        $this->setBot($bot);
+    }
+
+    /**
+     * @param Bot $bot
+     */
+    public function setBot($bot)
+    {
+        $this->bot = $bot;
+    }
+    
+    /**
+     * @return \Cerberus\Bot
+     */
+    public function getBot(): Bot
+    {
+        return $this->bot;
+    }
 
     /**
      * @param string $namespace
@@ -76,6 +101,11 @@ class Caller
     {
         $key = strtolower($name);
         $className = $namespace . ucfirst($name);
+        $classPath = str_replace('\\', DIRECTORY_SEPARATOR, str_replace('\\Cerberus\\', System::getPath() . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR, $className)) . '.php';
+        $filesystem = $this->getBot()->getSystem()->getFilesystem();
+        if (false === $filesystem->exists($classPath)) {
+            throw new \Symfony\Component\Filesystem\Exception\FileNotFoundException(null, 0, null, $classPath);
+        }
         $this->classes[$key] = new $className($this);
         return $this->classes[$key];
     }

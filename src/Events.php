@@ -67,8 +67,8 @@ class Events
     {
         try {
             return $this->getBot()->getCaller()->call('\Cerberus\Events\Event', $name, $arguments);
-        } catch (Exception $e) {
-            $this->error($e->getMessage());
+        } catch (\Throwable $e) {
+            $this->getBot()->getConsole()->writeln('<error>' . $e->getMessage() . '</error>');
         }
     }
 }

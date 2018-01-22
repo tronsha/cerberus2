@@ -38,7 +38,8 @@ use Cerberus\Output\Console;
 class Bot
 {
     private $botId = 0;
-    
+    private $startTime = null;
+
     private $param = null;
 
     private $caller = null;
@@ -54,6 +55,7 @@ class Bot
      */
     public function __construct()
     {
+        $this->startTime = microtime(true);
         set_time_limit(0);
         error_reporting(-1);
         date_default_timezone_set('Europe/Berlin');
@@ -63,7 +65,7 @@ class Bot
             }
         );
         $this->setSystem(new System);
-        $this->setCaller(new Caller);
+        $this->setCaller(new Caller($this));
         //$this->setConfig(new Config);
         $this->setConsole(new Console($this, FormatterFactory::console()));
         $this->setDatabase(new Database($this));
@@ -77,7 +79,8 @@ class Bot
     public function run()
     {
         $this->getIrc()->run();
-        $this->getConsole()->writeln('<error>test</error>');
+        $output = vsprintf('Execute time: %.5fs', microtime(true) - $this->startTime);
+        $this->getConsole()->writeln('<info>' . $output . '</info>');
     }
     
     /**

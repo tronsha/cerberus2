@@ -42,14 +42,15 @@ Then, use the `install` command:
  
 ## Info
 
-* [RFC 1459][9]
-* [RFC 2810][10]
+* [RFC 1459][13]
+* [RFC 2810][14]
 
 ## Libraries
 
 * [Doctrine Database Abstraction Layer 2.5][6]
 * [Symfony Console Component 3.4][7]
 * [Symfony Translation Component 3.4][8]
+* [Symfony Filesystem Component 3.4][9]
 
 ## Creator
 
@@ -70,7 +71,7 @@ Then, use the `install` command:
 
 ## Links
 
-* [Comparison of Internet Relay Chat bots][14]
+* [Comparison of Internet Relay Chat bots][15]
 
 [1]: http://www.mpcx.net
 [2]: https://github.com/tronsha
@@ -80,9 +81,10 @@ Then, use the `install` command:
 [6]: http://www.doctrine-project.org/projects/dbal.html
 [7]: http://symfony.com/components/Console
 [8]: http://symfony.com/components/Translation
-[9]: https://phpunit.de/
-[10]: http://cs.sensiolabs.org/
-[11]: https://github.com/symfony/symfony/pull/13607
-[12]: https://tools.ietf.org/html/rfc1459
-[13]: https://tools.ietf.org/html/rfc2810
-[14]: https://en.wikipedia.org/wiki/Comparison_of_Internet_Relay_Chat_bots
+[9]: http://symfony.com/components/Translation
+[10]: https://phpunit.de/
+[11]: http://cs.sensiolabs.org/
+[12]: https://github.com/symfony/symfony/pull/13607
+[13]: https://tools.ietf.org/html/rfc1459
+[14]: https://tools.ietf.org/html/rfc2810
+[15]: https://en.wikipedia.org/wiki/Comparison_of_Internet_Relay_Chat_bots
