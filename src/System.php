@@ -23,7 +23,6 @@ declare(strict_types=1);
 namespace Cerberus;
 
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 
 /**
  * Class System
@@ -36,23 +35,17 @@ use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 class System
 {
     /**
-     * @var Filesystem 
+     * @var Filesystem
      */
     private $filesystem = null;
     
     /**
-     * @var string
-     */
-    private static $path = null;
-    
-    /**
-     * 
+     *
      */
     public function __construct()
     {
         $this->filesystem = new Filesystem;
     }
-    
     
     /**
      * @return Filesystem
@@ -65,12 +58,9 @@ class System
     /**
      * @return string
      */
-    public static function getPath()
+    public function getPath()
     {
-        if (null === self::$path) {
-            self::$path = realpath(dirname(__FILE__) . '/..');
-        }
-        return self::$path;
+        return realpath(dirname(__FILE__) . '/..');
     }
     
     /**

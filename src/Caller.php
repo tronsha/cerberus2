@@ -67,46 +67,36 @@ class Caller
      */
     public function call(string $namespace, string $name, array $arguments)
     {
-        $class = $this->getClass($namespace, $name);
-        if (null !== $class) {
+        $className = $namespace . ucfirst($name);
+        $class = $this->getClass($className);
+        if (false === is_a($class, $className)) {
             return call_user_func_array([$class, $name], $arguments);
         }
     }
 
     /**
-     * @param string $namespace
-     * @param string $name
+     * @param string $className
      * @return object|null
      */
-    public function getClass(string $namespace, string $name)
+    public function getClass(string $className)
     {
-        $key = strtolower($name);
-        if (!array_key_exists($key, $this->classes)) {
-            return $this->loadClass($namespace, $name);
+        $classKey = md5($className);
+        if (false === array_key_exists($classKey, $this->classes)) {
+            $this->classes[$classKey] = $this->loadClass($className);
         }
-        $class = $this->classes[$key];
-        $className = $namespace . ucfirst($name);
-        if (!is_a($class, $className)) {
-            return null;
-        }
-        return $class;
+        return $this->classes[$classKey];
     }
 
     /**
-     * @param string $namespace
-     * @param string $name
+     * @param string $className
      * @return mixed
      */
-    protected function loadClass(string $namespace, string $name)
+    protected function loadClass(string $className)
     {
-        $key = strtolower($name);
-        $className = $namespace . ucfirst($name);
-        $classPath = str_replace('\\', DIRECTORY_SEPARATOR, str_replace('\\Cerberus\\', System::getPath() . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR, $className)) . '.php';
-        $filesystem = $this->getBot()->getSystem()->getFilesystem();
-        if (false === $filesystem->exists($classPath)) {
-            throw new \Symfony\Component\Filesystem\Exception\FileNotFoundException(null, 0, null, $classPath);
+        $classFile = $this->getBot()->getSystem()->getPath() . DIRECTORY_SEPARATOR . str_replace('\\', DIRECTORY_SEPARATOR, str_replace('Cerberus', 'src', $className)) . '.php';
+        if (false === $this->getBot()->getSystem()->getFilesystem()->exists($classFile)) {
+            throw new \Symfony\Component\Filesystem\Exception\FileNotFoundException(null, 0, null, $classFile);
         }
-        $this->classes[$key] = new $className($this);
-        return $this->classes[$key];
+        return new $className($this->getBot());
     }
 }

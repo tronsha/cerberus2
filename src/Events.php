@@ -66,7 +66,7 @@ class Events
     public function __call(string $name, array $arguments)
     {
         try {
-            return $this->getBot()->getCaller()->call('\Cerberus\Events\Event', $name, $arguments);
+            return $this->getBot()->getCaller()->call('\\Cerberus\\Events\\Event', $name, $arguments);
         } catch (\Throwable $e) {
             $this->getBot()->getConsole()->writeln('<error>' . $e->getMessage() . '</error>');
         }
