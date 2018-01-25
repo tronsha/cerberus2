@@ -32,8 +32,8 @@ namespace Cerberus;
  */
 class Caller
 {
-    protected $classes = [];
-    protected $bot = null;
+    private $classes = [];
+    private $bot = null;
 
     /**
      * @param Bot $bot
@@ -46,7 +46,7 @@ class Caller
     /**
      * @param Bot $bot
      */
-    public function setBot($bot)
+    protected function setBot($bot)
     {
         $this->bot = $bot;
     }
@@ -54,23 +54,23 @@ class Caller
     /**
      * @return \Cerberus\Bot
      */
-    public function getBot(): Bot
+    protected function getBot(): Bot
     {
         return $this->bot;
     }
 
     /**
      * @param string $namespace
-     * @param string $name
+     * @param string $methodName
      * @param array $arguments
      * @return mixed
      */
-    public function call(string $namespace, string $name, array $arguments)
+    public function call(string $namespace, string $methodName, array $arguments)
     {
-        $className = $namespace . ucfirst($name);
-        $class = $this->getClass($className);
-        if (false === is_a($class, $className)) {
-            return call_user_func_array([$class, $name], $arguments);
+        $className = $namespace . ucfirst($methodName);
+        $object = $this->getObject($className);
+        if (false === is_a($object, $className)) {
+            return call_user_func_array([$object, $methodName], $arguments);
         }
     }
 
@@ -78,11 +78,11 @@ class Caller
      * @param string $className
      * @return object|null
      */
-    public function getClass(string $className)
+    protected function getObject(string $className)
     {
         $classKey = md5($className);
         if (false === array_key_exists($classKey, $this->classes)) {
-            $this->classes[$classKey] = $this->loadClass($className);
+            $this->classes[$classKey] = $this->createObject($className);
         }
         return $this->classes[$classKey];
     }
@@ -91,7 +91,7 @@ class Caller
      * @param string $className
      * @return mixed
      */
-    protected function loadClass(string $className)
+    protected function createObject(string $className)
     {
         $classFile = $this->getBot()->getSystem()->getPath() . DIRECTORY_SEPARATOR . str_replace('\\', DIRECTORY_SEPARATOR, str_replace('Cerberus', 'src', $className)) . '.php';
         if (false === $this->getBot()->getSystem()->getFilesystem()->exists($classFile)) {
