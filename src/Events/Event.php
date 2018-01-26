@@ -20,22 +20,24 @@ declare(strict_types=1);
  * with this program; if not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Cerberus;
+namespace Cerberus\Events;
+
+use Cerberus\Bot;
 
 /**
- * Class Irc
+ * Class Event
  * @package Cerberus
  * @author Stefan Hüsges
  * @link http://www.mpcx.net/projekte/cerberus/ Project Homepage
  * @link https://github.com/tronsha/cerberus Project on GitHub
  * @license http://www.gnu.org/licenses/gpl-3.0 GNU General Public License
  */
-class Irc
+abstract class Event
 {
     /**
      * @var Bot
      */
-    private $bot = null;
+    protected $bot = null;
 
     /**
      * @param Bot $bot
@@ -59,18 +61,5 @@ class Irc
     public function getBot(): Bot
     {
         return $this->bot;
-    }
-
-    private function connect()
-    {
-        $this->getBot()->getEvents()->onConnect();
-    }
-    
-    /**
-     *
-     */
-    public function run()
-    {
-        $this->connect();
     }
 }

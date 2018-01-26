@@ -32,6 +32,9 @@ namespace Cerberus;
  */
 class Events
 {
+    /**
+     * @var Bot
+     */
     protected $bot = null;
 
     /**

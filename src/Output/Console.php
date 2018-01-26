@@ -41,10 +41,20 @@ use Symfony\Component\Console\Output\StreamOutput;
  */
 class Console
 {
-    protected $bot;
-    protected $formatter;
-    protected $output;
-    protected $return = false;
+    /**
+     * @var Bot
+     */
+    private $bot;
+    
+    /**
+     * @var FormatterConsole
+     */
+    private $formatter;
+    
+    /**
+     * @var StreamOutput
+     */
+    private $output;
 
     /**
      * @param Bot $bot
@@ -162,7 +172,7 @@ class Console
      * @param int $offset
      * @return string
      */
-    private function build(string $text, int $length, bool $break, bool $wordwrap, int $offset): string
+    protected function build(string $text, int $length, bool $break, bool $wordwrap, int $offset): string
     {
         $length -= $offset;
         if ($this->len($text) > $length) {

@@ -30,7 +30,7 @@ namespace Cerberus\Events;
  * @link https://github.com/tronsha/cerberus Project on GitHub
  * @license http://www.gnu.org/licenses/gpl-3.0 GNU General Public License
  */
-class EventOnConnect
+class EventOnConnect extends Event
 {
     public function onConnect()
     {

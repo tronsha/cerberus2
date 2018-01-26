@@ -32,7 +32,14 @@ namespace Cerberus;
  */
 class Caller
 {
+    /**
+     * @var array
+     */
     private $classes = [];
+    
+    /**
+     * @var Bot
+     */
     private $bot = null;
 
     /**

@@ -37,9 +37,20 @@ use Exception;
  */
 class Database
 {
-    protected $bot = null;
-    protected $config = [];
-    protected $conn = null;
+    /**
+     * @var Bot
+     */
+    private $bot = null;
+    
+    /**
+     * @var array
+     */
+    private $config = [];
+    
+    /**
+     * @var \Doctrine\DBAL\Connection 
+     */
+    private $conn = null;
 
     /**
      * @param Bot $bot
@@ -57,13 +68,13 @@ class Database
      * @throws \Doctrine\DBAL\DBALException
      * @return \Doctrine\DBAL\Connection
      */
-    public function connect()
+    public function connect(): \Doctrine\DBAL\Connection
     {
         return $this->conn = DriverManager::getConnection($this->config);
     }
 
     /**
-     * @return mixed
+     * @return void
      */
     public function close()
     {
@@ -73,7 +84,7 @@ class Database
     /**
      * @return \Doctrine\DBAL\Connection
      */
-    public function getConnection()
+    public function getConnection(): \Doctrine\DBAL\Connection
     {
         return $this->conn;
     }
@@ -99,7 +110,7 @@ class Database
     /**
      * @param Bot $bot
      */
-    public function setBot($bot)
+    public function setBot(Bot $bot)
     {
         $this->bot = $bot;
     }
@@ -115,7 +126,7 @@ class Database
     /**
      * @return int
      */
-    public function getBotId()
+    public function getBotId(): int
     {
         return $this->getBot()->getBotId();
     }
@@ -123,7 +134,7 @@ class Database
     /**
      * @param int $id
      */
-    public function setBotId($id)
+    public function setBotId(int $id)
     {
         $this->getBot()->setBotId($id);
     }
@@ -133,24 +144,12 @@ class Database
      * @param array $arguments
      * @return mixed
      */
-    public function __call($name, $arguments)
+    public function __call(string $name, array $arguments)
     {
         try {
-            return $this->getBot()->getCaller()->call('\Cerberus\Database\Database', $name, $arguments);
+            return $this->getBot()->getCaller()->call('\\Cerberus\\Database\\Db', $name, $arguments);
         } catch (Exception $e) {
             $this->error($e->getMessage());
-        }
-    }
-
-    /**
-     * @param string $error
-     */
-    public function error($error)
-    {
-        if (null !== $this->getBot()) {
-            $this->getBot()->error($error);
-        } else {
-            echo $error;
         }
     }
 
@@ -158,11 +157,11 @@ class Database
      * the ping method is new in doctrine dbal at version 2.5.*
      * @link http://www.doctrine-project.org/2014/01/01/dbal-242-252beta1.html
      * @link https://packagist.org/packages/doctrine/dbal
-     * @return mixed
+     * @return bool
      */
-    public function ping()
+    public function ping(): bool
     {
-        return Version::compare('2.5') >= 0 ? $this->getConnection()->ping() : true;
+        return $this->getConnection()->ping();
     }
 
     /**
@@ -170,7 +169,7 @@ class Database
      * @throws Exception
      * @return int
      */
-    public function lastInsertId($dbName = null): int
+    public function lastInsertId(string $dbName = null): int
     {
         $lastInsertId = $this->getConnection()->lastInsertId();
         if (false === $lastInsertId && null !== $dbName) {
