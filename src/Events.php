@@ -35,7 +35,17 @@ class Events
     /**
      * @var Bot
      */
-    protected $bot = null;
+    private $bot = null;
+    
+    /**
+     * @var array
+     */
+    private $eventList = null;
+    
+    /**
+     * @var array
+     */
+    private $pluginEvents = [];
 
     /**
      * @param Bot $bot
@@ -69,9 +79,76 @@ class Events
     public function __call(string $name, array $arguments)
     {
         try {
+            $this->runPluginEvent($name, $arguments);
             return $this->getBot()->getCaller()->call('\\Cerberus\\Events\\Event', $name, $arguments);
         } catch (\Throwable $e) {
             $this->getBot()->getConsole()->writeln('<error>' . $e->getMessage() . '</error>');
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function getEventList(): array
+    {
+        if (null !== $this->eventList) {
+            return $this->eventList;
+        }
+        $listClasses = [];
+        $dir = $this->getBot()->getSystem()->getPath() . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'Events' . DIRECTORY_SEPARATOR;
+        $files = glob($dir . 'EventOn*.php');
+        foreach ($files as $file) {
+            $listClasses[] = lcfirst(str_replace([$dir . 'Event' , '.php'], '', $file));
+        }
+        $listThis = get_class_methods($this);
+        $list = array_merge($listClasses, $listThis);
+        foreach ($list as $key => $value) {
+            if ('on' !== substr($value, 0, 2)) {
+                unset($list[$key]);
+            }
+        }
+        $this->eventList = $list;
+        return $this->eventList;
+    }
+
+    /**
+     * @param string $event
+     * @param object $object
+     * @param string|null $method
+     * @param int $priority
+     * @throws Exception
+     */
+    public function addPluginEvent(string $event, $object, string $method = null, int $priority = 5)
+    {
+        if (false === in_array($event, $this->getEventList(), true)) {
+            throw new Exception('The event ' . $event . ' not exists.');
+        }
+        $method = (null === $method ? $event : $method);
+        $pluginArray = ['object' => $object, 'method' => $method];
+        $this->pluginEvents[$event][$priority][] = $pluginArray;
+    }
+
+    /**
+     * @param string $event
+     * @param array $data
+     * @throws Exception
+     */
+    public function runPluginEvent(string $event, array $data)
+    {
+        if (true === array_key_exists($event, $this->pluginEvents)) {
+            for ($priority = 10; $priority > 0; $priority--) {
+                if (true === array_key_exists($priority, $this->pluginEvents[$event])) {
+                    foreach ($this->pluginEvents[$event][$priority] as $pluginArray) {
+                        $pluginObject = $pluginArray['object'];
+                        $pluginMethod = $pluginArray['method'];
+                        if (true === method_exists($pluginObject, $pluginMethod)) {
+                            $pluginObject->$pluginMethod($data);
+                        } else {
+                            throw new Exception('The Class ' . get_class($pluginObject) . ' has not the method ' . $pluginMethod . '.');
+                        }
+                    }
+                }
+            }
         }
     }
 }
