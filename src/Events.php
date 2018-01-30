@@ -22,6 +22,8 @@ declare(strict_types=1);
 
 namespace Cerberus;
 
+use Cerberus\Plugins\Plugin;
+
 /**
  * Class Event
  * @package Cerberus
@@ -74,13 +76,14 @@ class Events
     /**
      * @param string $name
      * @param array $arguments
-     * @return mixed
+     * @return array
      */
     public function __call(string $name, array $arguments)
     {
         try {
-            $this->runPluginEvent($name, $arguments);
-            return $this->getBot()->getCaller()->call('\\Cerberus\\Events\\Event', $name, $arguments);
+            $return['event'] = $this->getBot()->getCaller()->call('\\Cerberus\\Events\\Event', $name, $arguments);
+            $return['plugins'] = $this->runPluginEvent($name, $arguments);
+            return $return;
         } catch (\Throwable $e) {
             $this->getBot()->getConsole()->writeln('<error>' . $e->getMessage() . '</error>');
         }
@@ -113,12 +116,12 @@ class Events
 
     /**
      * @param string $event
-     * @param object $object
+     * @param Plugin $object
      * @param string|null $method
      * @param int $priority
      * @throws Exception
      */
-    public function addPluginEvent(string $event, $object, string $method = null, int $priority = 5)
+    public function addPluginEvent(string $event, Plugin $object, string $method = null, int $priority = 5)
     {
         if (false === in_array($event, $this->getEventList(), true)) {
             throw new Exception('The event ' . $event . ' not exists.');
@@ -132,23 +135,26 @@ class Events
      * @param string $event
      * @param array $data
      * @throws Exception
+     * @return array
      */
     public function runPluginEvent(string $event, array $data)
     {
         if (true === array_key_exists($event, $this->pluginEvents)) {
+            $results = [];
             for ($priority = 10; $priority > 0; $priority--) {
                 if (true === array_key_exists($priority, $this->pluginEvents[$event])) {
                     foreach ($this->pluginEvents[$event][$priority] as $pluginArray) {
                         $pluginObject = $pluginArray['object'];
                         $pluginMethod = $pluginArray['method'];
                         if (true === method_exists($pluginObject, $pluginMethod)) {
-                            $pluginObject->$pluginMethod($data);
+                            $results[] = $pluginObject->$pluginMethod($data);
                         } else {
                             throw new Exception('The Class ' . get_class($pluginObject) . ' has not the method ' . $pluginMethod . '.');
                         }
                     }
                 }
             }
+            return $results;
         }
     }
 }
