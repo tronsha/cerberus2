@@ -22,6 +22,8 @@ declare(strict_types=1);
 
 namespace Cerberus;
 
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
@@ -40,10 +42,19 @@ class System
     private $filesystem = null;
     
     /**
+     * @var Logger
+     */
+    private $logger = null;
+    
+    /**
      *
      */
     public function __construct()
     {
+        $this->logger = new Logger('logfile');
+        $file = $this->getPath() . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'log' . DIRECTORY_SEPARATOR . date('Y-m-d H-i-s') . '.txt';
+        $this->logger->pushHandler(new StreamHandler($file));
+        $this->logger->info('Logger ready');
         $this->filesystem = new Filesystem;
     }
     
@@ -53,6 +64,14 @@ class System
     public function getFilesystem(): Filesystem
     {
         return $this->filesystem;
+    }
+    
+    /**
+     * @return Logger
+     */
+    public function getLogger()
+    {
+        return $this->logger;
     }
 
     /**

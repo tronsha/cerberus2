@@ -77,7 +77,7 @@ abstract class Plugin
             }
             $this->getBot()->getEvents()->addPluginEvent($event, $this, $method, $priority);
         } catch (\Throwable $e) {
-            //$this->getBot()->getError()->addMassage($e->getMessage());
+            $this->getBot()->getSystem()->getLogger()->error($e->getMessage(), ['event' => $event, 'method' => $method]);
         }
     }
 

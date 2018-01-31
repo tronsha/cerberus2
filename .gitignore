@@ -1,6 +1,5 @@
 /vendor/
-/log/
-/tmp/
+/var/
 /config/database.ini
 composer.phar
 composer.lock

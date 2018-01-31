@@ -22,6 +22,8 @@ declare(strict_types=1);
 
 namespace Cerberus;
 
+use Symfony\Component\Filesystem\Exception\FileNotFoundException;
+
 /**
  * Class Caller
  * @package Cerberus
@@ -102,7 +104,7 @@ class Caller
     {
         $classFile = $this->getBot()->getSystem()->getPath() . DIRECTORY_SEPARATOR . str_replace('\\', DIRECTORY_SEPARATOR, str_replace('Cerberus', 'src', $className)) . '.php';
         if (false === $this->getBot()->getSystem()->getFilesystem()->exists($classFile)) {
-            throw new \Symfony\Component\Filesystem\Exception\FileNotFoundException(null, 0, null, $classFile);
+            throw new FileNotFoundException(null, 0, null, $classFile);
         }
         return new $className($this->getBot());
     }

@@ -85,7 +85,7 @@ class Events
             $return['plugins'] = $this->runPluginEvent($name, $arguments);
             return $return;
         } catch (\Throwable $e) {
-            $this->getBot()->getConsole()->writeln('<error>' . $e->getMessage() . '</error>');
+            $this->getBot()->getSystem()->getLogger()->error($e->getMessage(), ['name' => $name, 'arguments' => $arguments]);
         }
     }
 
