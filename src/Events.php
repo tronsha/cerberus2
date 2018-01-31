@@ -157,4 +157,36 @@ class Events
             return $results;
         }
     }
+    
+    /**
+     * @param string $event
+     * @param Plugin $object
+     * @return int
+     */
+    public function removePluginEvent(string $event, Plugin $object): int
+    {
+        $count = 0;
+        $className = get_class($object);
+        if (true === array_key_exists($event, $this->pluginEvents)) {
+            foreach ($this->pluginEvents[$event] as $priorityKey => $priorityValue) {
+                foreach ($priorityValue as $key => $pluginArray) {
+                    if (get_class($pluginArray['object']) === $className) {
+                        unset($this->pluginEvents[$event][$priorityKey][$key]);
+                        $count++;
+                    }
+                }
+            }
+        }
+        return $count;
+    }
+
+    /**
+     * @param Plugin $object
+     */
+    public function removePluginEventByObject(Plugin $object)
+    {
+        foreach (array_keys($this->pluginEvents) as $event) {
+            $this->removePluginEvent($event, $object);
+        }
+    }
 }
