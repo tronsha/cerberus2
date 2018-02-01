@@ -48,7 +48,7 @@ class Database
     private $config = [];
     
     /**
-     * @var \Doctrine\DBAL\Connection 
+     * @var \Doctrine\DBAL\Connection
      */
     private $conn = null;
 
