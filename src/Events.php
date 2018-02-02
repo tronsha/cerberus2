@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace Cerberus;
 
 use Cerberus\Plugins\Plugin;
+use Exception;
 
 /**
  * Class Event
