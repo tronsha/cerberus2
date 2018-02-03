@@ -45,6 +45,7 @@ class Bot
     private $caller = null;
     private $config = null;
     private $console = null;
+    private $cron = null;
     private $database = null;
     private $events = null;
     private $irc = null;
@@ -70,6 +71,7 @@ class Bot
         $this->setConsole(new Console($this, FormatterFactory::console()));
         $this->setDatabase(new Database($this));
         $this->setIrc(new Irc($this));
+        $this->setCron(new Cron($this));
         $this->setEvents(new Events($this));
     }
 
@@ -185,6 +187,22 @@ class Bot
     public function getCaller(): Caller
     {
         return $this->caller;
+    }
+
+    /**
+     * @param Cron $cron
+     */
+    public function setCron(Cron $cron)
+    {
+        $this->cron = $cron;
+    }
+
+    /**
+     * @return Cron
+     */
+    public function getCron(): Cron
+    {
+        return $this->cron;
     }
 
     /**
