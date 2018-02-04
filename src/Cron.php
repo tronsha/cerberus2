@@ -36,11 +36,6 @@ use Exception;
 class Cron
 {
     /**
-     * @var Bot
-     */
-    private $bot = null;
-
-    /**
      * @var array
      */
     private $cronjobs = [];
@@ -51,38 +46,13 @@ class Cron
     private $cronIdCount = 0;
 
     /**
-     * Cron constructor.
-     * @param Bot|null $bot
-     */
-    public function __construct(Bot $bot = null)
-    {
-        $this->setBot($bot);
-    }
-
-    /**
-     * @param Bot $bot
-     */
-    public function setBot($bot)
-    {
-        $this->bot = $bot;
-    }
-
-    /**
-     * @return \Cerberus\Bot
-     */
-    public function getBot(): Bot
-    {
-        return $this->bot;
-    }
-
-    /**
      * @param string $cronString
      * @param object $object
      * @param string $method
      * @param array $param
      * @return int
      */
-    public function add(string $cronString, object $object, string $method = 'run', array $param = null): int
+    public function add(string $cronString, $object, string $method = 'run', array $param = null): int
     {
         $this->cronIdCount++;
         $cronString = preg_replace('/\s+/', ' ', $cronString);
@@ -139,7 +109,7 @@ class Cron
         list($cronMinute, $cronHour, $cronDayOfMonth, $cronMonth, $cronDayOfWeek) = $cronArray;
         $cronDayOfWeek = $this->dowNameToNumber($cronDayOfWeek);
         $cronMonth = $this->monthNameToNumber($cronMonth);
-        $cronDayOfWeek = (7 === intval($cronDayOfWeek) ? 0 : $cronDayOfWeek);
+        $cronDayOfWeek = ('7' === $cronDayOfWeek ? '0' : $cronDayOfWeek);
         $cronMinute = ('*' !== $cronMinute ? $this->prepare($cronMinute, 0, 59) : $cronMinute);
         $cronHour = ('*' !== $cronHour ? $this->prepare($cronHour, 0, 23) : $cronHour);
         $cronDayOfMonth = ('*' !== $cronDayOfMonth ? $this->prepare($cronDayOfMonth, 1, 31) : $cronDayOfMonth);
@@ -226,7 +196,7 @@ class Cron
     {
         $subject = strtolower($subject);
         $search = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
-        $replace = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+        $replace = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
         return str_replace($search, $replace, $subject);
     }
 
@@ -238,7 +208,7 @@ class Cron
     {
         $subject = strtolower($subject);
         $search = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
-        $replace = [0, 1, 2, 3, 4, 5, 6];
+        $replace = ['0', '1', '2', '3', '4', '5', '6'];
         return str_replace($search, $replace, $subject);
     }
 }

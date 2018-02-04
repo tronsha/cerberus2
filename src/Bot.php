@@ -71,7 +71,7 @@ class Bot
         $this->setConsole(new Console($this, FormatterFactory::console()));
         $this->setDatabase(new Database($this));
         $this->setIrc(new Irc($this));
-        $this->setCron(new Cron($this));
+        $this->setCron(new Cron);
         $this->setEvents(new Events($this));
     }
 
