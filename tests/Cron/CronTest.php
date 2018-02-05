@@ -22,7 +22,7 @@ namespace Cerberus;
 
 class CronTest extends \PHPUnit\Framework\TestCase
 {
-    protected $cron;
+    private $cron;
 
     protected function setUp()
     {
@@ -34,7 +34,7 @@ class CronTest extends \PHPUnit\Framework\TestCase
         unset($this->cron);
     }
 
-    public function invokeMethod(&$object, $methodName, ...$parameters)
+    protected function invokeMethod(&$object, $methodName, ...$parameters)
     {
         $reflection = new \ReflectionClass(get_class($object));
         $method = $reflection->getMethod($methodName);

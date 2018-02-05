@@ -26,7 +26,7 @@ use Cerberus\Formatter\FormatterFactory;
 
 class FormatterConsoleTest extends \PHPUnit\Framework\TestCase
 {
-    protected $formatter;
+    private $formatter;
 
     protected function setUp()
     {

@@ -30,8 +30,8 @@ use Symfony\Component\Console\Output\StreamOutput;
 
 class OutputConsoleTest extends \PHPUnit\Framework\TestCase
 {
-    protected $stream;
-    protected $console;
+    private $stream;
+    private $console;
 
     protected function setUp()
     {
@@ -54,7 +54,7 @@ class OutputConsoleTest extends \PHPUnit\Framework\TestCase
         $this->stream = null;
     }
 
-    public function invokeMethod(&$object, $methodName, ...$parameters)
+    protected function invokeMethod(&$object, $methodName, ...$parameters)
     {
         $reflection = new \ReflectionClass(get_class($object));
         $method = $reflection->getMethod($methodName);
