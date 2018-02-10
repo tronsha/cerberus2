@@ -32,8 +32,14 @@ namespace Cerberus\Formatter;
  */
 class Html extends AbstractFormatter
 {
-    protected $open = false;
-    protected $bg = '';
+    /**
+     * @var bool
+     */
+    private $open = false;
+    /**
+     * @var string
+     */
+    private $bg = '';
 
     /**
      *

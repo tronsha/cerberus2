@@ -37,7 +37,7 @@ abstract class Plugin
     /**
      * @var Bot
      */
-    protected $bot = null;
+    private $bot = null;
 
     /**
      * @param Bot $bot
@@ -56,7 +56,7 @@ abstract class Plugin
     }
     
     /**
-     * @return \Cerberus\Bot
+     * @return Bot
      */
     public function getBot(): Bot
     {
@@ -67,6 +67,7 @@ abstract class Plugin
      * @param string $event
      * @param string|null $method
      * @param int $priority
+     * @throws Exception
      */
     protected function addEvent($event, $method = null, $priority = 5)
     {

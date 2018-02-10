@@ -67,7 +67,7 @@ class Events
     }
     
     /**
-     * @return \Cerberus\Bot
+     * @return Bot
      */
     public function getBot(): Bot
     {

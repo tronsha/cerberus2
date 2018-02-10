@@ -66,12 +66,12 @@ class Bot
             }
         );
         $this->setSystem(new System);
+        $this->setCron(new Cron);
         $this->setCaller(new Caller($this));
         //$this->setConfig(new Config);
         $this->setConsole(new Console($this, FormatterFactory::console()));
         $this->setDatabase(new Database($this));
         $this->setIrc(new Irc($this));
-        $this->setCron(new Cron);
         $this->setEvents(new Events($this));
     }
 

@@ -61,7 +61,7 @@ class Caller
     }
     
     /**
-     * @return \Cerberus\Bot
+     * @return Bot
      */
     protected function getBot(): Bot
     {
