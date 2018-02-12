@@ -42,6 +42,7 @@ class Bot
 
     private $param = null;
 
+    private $auth = null;
     private $caller = null;
     private $config = null;
     private $console = null;
@@ -71,6 +72,7 @@ class Bot
         //$this->setConfig(new Config);
         $this->setConsole(new Console($this, FormatterFactory::console()));
         $this->setDatabase(new Database($this));
+        $this->setAuth(new Auth($this));
         $this->setIrc(new Irc($this));
         $this->setEvents(new Events($this));
     }
@@ -251,5 +253,21 @@ class Bot
     public function getIrc(): Irc
     {
         return $this->irc;
+    }
+
+    /**
+     * @param Auth $auth
+     */
+    public function setAuth(Auth $auth)
+    {
+        $this->auth = $auth;
+    }
+
+    /**
+     * @return Auth
+     */
+    public function getAuth(): Auth
+    {
+        return $this->auth;
     }
 }
