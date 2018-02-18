@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /*
  * Cerberus IRCBot
  * Copyright (C) 2008 - 2018 Stefan Hüsges
@@ -32,14 +34,6 @@ class CronTest extends \PHPUnit\Framework\TestCase
     protected function tearDown()
     {
         unset($this->cron);
-    }
-
-    protected function invokeMethod(&$object, $methodName, ...$parameters)
-    {
-        $reflection = new \ReflectionClass(get_class($object));
-        $method = $reflection->getMethod($methodName);
-        $method->setAccessible(true);
-        return $method->invokeArgs($object, $parameters);
     }
 
     /**
@@ -129,6 +123,7 @@ class CronTest extends \PHPUnit\Framework\TestCase
         } catch (\Exception $e) {
             $this->assertSame('a cron has an error', $e->getMessage());
         }
+
         try {
             $this->assertFalse($this->invokeMethod($this->cron, 'compare', '* * * * * *', 0, 0, 0, 0, 0));
         } catch (\Exception $e) {
@@ -146,5 +141,14 @@ class CronTest extends \PHPUnit\Framework\TestCase
     public function output()
     {
         echo 'test';
+    }
+
+    protected function invokeMethod(&$object, $methodName, ...$parameters)
+    {
+        $reflection = new \ReflectionClass(get_class($object));
+        $method = $reflection->getMethod($methodName);
+        $method->setAccessible(true);
+
+        return $method->invokeArgs($object, $parameters);
     }
 }

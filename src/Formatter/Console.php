@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 /*
  * Cerberus IRCBot
@@ -38,6 +38,24 @@ class Console extends AbstractFormatter
     public function __construct()
     {
         $this->type = 'CONSOLE';
+    }
+
+    /**
+     * @param string $text
+     * @return string
+     */
+    public function bold(string $text): string
+    {
+        return parent::format($text, "\x02", "\033[1m", "\033[22m");
+    }
+
+    /**
+     * @param string $text
+     * @return string
+     */
+    public function underline(string $text): string
+    {
+        return parent::format($text, "\x1F", "\033[4m", "\033[24m");
     }
 
     /**
@@ -86,23 +104,5 @@ class Console extends AbstractFormatter
         }
 
         return "\033[39;49m";
-    }
-
-    /**
-     * @param string $text
-     * @return string
-     */
-    public function bold(string $text): string
-    {
-        return parent::format($text, "\x02", "\033[1m", "\033[22m");
-    }
-
-    /**
-     * @param string $text
-     * @return string
-     */
-    public function underline(string $text): string
-    {
-        return parent::format($text, "\x1F", "\033[4m", "\033[24m");
     }
 }

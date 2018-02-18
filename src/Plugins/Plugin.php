@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 /*
  * Cerberus IRCBot
@@ -54,7 +54,7 @@ abstract class Plugin
     {
         $this->bot = $bot;
     }
-    
+
     /**
      * @return Bot
      */
@@ -62,7 +62,7 @@ abstract class Plugin
     {
         return $this->bot;
     }
-    
+
     /**
      * @param string $event
      * @param string|null $method

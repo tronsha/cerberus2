@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 /*
  * Cerberus IRCBot
@@ -57,6 +57,7 @@ class Cron
         $this->cronIdCount++;
         $cronString = preg_replace('/\s+/', ' ', $cronString);
         $this->cronjobs[$this->cronIdCount] = ['cron' => $cronString, 'object' => $object, 'method' => $method, 'param' => $param];
+
         return $this->cronIdCount;
     }
 
@@ -68,8 +69,10 @@ class Cron
     {
         if (true === array_key_exists($id, $this->cronjobs)) {
             unset($this->cronjobs[$id]);
+
             return true;
         }
+
         return false;
     }
 
@@ -146,6 +149,7 @@ class Cron
         ) {
             return true;
         }
+
         return false;
     }
 
@@ -185,6 +189,7 @@ class Cron
                 $array[] = intval($value);
             }
         }
+
         return $array;
     }
 
@@ -197,6 +202,7 @@ class Cron
         $subject = strtolower($subject);
         $search = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
         $replace = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
+
         return str_replace($search, $replace, $subject);
     }
 
@@ -209,6 +215,7 @@ class Cron
         $subject = strtolower($subject);
         $search = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
         $replace = ['0', '1', '2', '3', '4', '5', '6'];
+
         return str_replace($search, $replace, $subject);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 /*
  * Cerberus IRCBot
@@ -54,7 +54,7 @@ abstract class Event
     {
         $this->bot = $bot;
     }
-    
+
     /**
      * @return Bot
      */

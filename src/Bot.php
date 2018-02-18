@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 /*
  * Cerberus IRCBot
@@ -86,7 +86,7 @@ class Bot
         $output = vsprintf('Execute time: %.5fs', microtime(true) - $this->startTime);
         $this->getConsole()->writeln('<info>' . $output . '</info>');
     }
-    
+
     /**
      * @param $id int
      */
@@ -94,7 +94,7 @@ class Bot
     {
         $this->botId = $id;
     }
-    
+
     /**
      * @return int
      */
@@ -102,7 +102,7 @@ class Bot
     {
         return $this->botId;
     }
-    
+
     /**
      * @param array $param
      */
@@ -114,7 +114,7 @@ class Bot
             $this->param[$parts[0]] = $parts[1] ?? '';
         }
     }
-    
+
     /**
      * @return mixed
      */
@@ -124,9 +124,10 @@ class Bot
         if (isset($this->param[$name])) {
             $value = $this->param[$name];
         }
+
         return $value;
     }
-    
+
     /**
      * @param System $system
      */
@@ -134,7 +135,7 @@ class Bot
     {
         $this->system = $system;
     }
-    
+
     /**
      * @return System
      */
@@ -150,7 +151,7 @@ class Bot
     {
         $this->database = $database;
     }
-    
+
     /**
      * @return Database
      */
@@ -158,7 +159,7 @@ class Bot
     {
         return $this->database;
     }
-    
+
     /**
      * @param Console $console
      */
@@ -166,7 +167,7 @@ class Bot
     {
         $this->console = $console;
     }
-    
+
     /**
      * @return Console
      */
@@ -174,7 +175,7 @@ class Bot
     {
         return $this->console;
     }
-    
+
     /**
      * @param Caller $caller
      */
@@ -182,7 +183,7 @@ class Bot
     {
         $this->caller = $caller;
     }
-    
+
     /**
      * @return Caller
      */
@@ -222,7 +223,7 @@ class Bot
     {
         return $this->events;
     }
-    
+
     /**
      * @param Config $config
      */
@@ -230,7 +231,7 @@ class Bot
     {
         $this->config = $config;
     }
-    
+
     /**
      * @return Config
      */

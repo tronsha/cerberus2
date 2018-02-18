@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 /*
  * Cerberus IRCBot
@@ -40,12 +40,12 @@ class System
      * @var Filesystem
      */
     private $filesystem = null;
-    
+
     /**
      * @var Logger
      */
     private $logger = null;
-    
+
     /**
      *
      */
@@ -57,7 +57,7 @@ class System
         $this->logger->info('Logger ready');
         $this->filesystem = new Filesystem;
     }
-    
+
     /**
      * @return Filesystem
      */
@@ -65,7 +65,7 @@ class System
     {
         return $this->filesystem;
     }
-    
+
     /**
      * @return Logger
      */
@@ -81,7 +81,7 @@ class System
     {
         return realpath(dirname(__FILE__) . '/..');
     }
-    
+
     /**
      * @return bool
      */
@@ -102,6 +102,7 @@ class System
                 }
             }
         }
+
         return $available;
     }
 
@@ -112,6 +113,7 @@ class System
     {
         $matches = [];
         preg_match('/columns\s([0-9]+);/', strtolower(exec('stty -a | grep columns')), $matches);
+
         return (false === isset($matches[1]) || intval($matches[1]) <= 0) ? 0 : intval($matches[1]);
     }
 }

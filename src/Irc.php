@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 /*
  * Cerberus IRCBot
@@ -52,7 +52,7 @@ class Irc
     {
         $this->bot = $bot;
     }
-    
+
     /**
      * @return Bot
      */
@@ -61,16 +61,16 @@ class Irc
         return $this->bot;
     }
 
-    private function connect()
-    {
-        $this->getBot()->getEvents()->onConnect();
-    }
-    
     /**
      *
      */
     public function run()
     {
         $this->connect();
+    }
+
+    private function connect()
+    {
+        $this->getBot()->getEvents()->onConnect();
     }
 }

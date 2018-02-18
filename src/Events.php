@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 /*
  * Cerberus IRCBot
@@ -39,12 +39,12 @@ class Events
      * @var Bot
      */
     private $bot = null;
-    
+
     /**
      * @var array
      */
     private $eventList = null;
-    
+
     /**
      * @var array
      */
@@ -59,22 +59,6 @@ class Events
     }
 
     /**
-     * @param Bot $bot
-     */
-    public function setBot($bot)
-    {
-        $this->bot = $bot;
-    }
-    
-    /**
-     * @return Bot
-     */
-    public function getBot(): Bot
-    {
-        return $this->bot;
-    }
-
-    /**
      * @param string $name
      * @param array $arguments
      * @return array
@@ -84,10 +68,27 @@ class Events
         try {
             $return['event'] = $this->getBot()->getCaller()->call('\\Cerberus\\Events\\Event', $name, $arguments);
             $return['plugins'] = $this->runPluginEvent($name, $arguments);
+
             return $return;
         } catch (\Throwable $e) {
             $this->getBot()->getSystem()->getLogger()->error($e->getMessage(), ['name' => $name, 'arguments' => $arguments]);
         }
+    }
+
+    /**
+     * @param Bot $bot
+     */
+    public function setBot($bot)
+    {
+        $this->bot = $bot;
+    }
+
+    /**
+     * @return Bot
+     */
+    public function getBot(): Bot
+    {
+        return $this->bot;
     }
 
     /**
@@ -112,6 +113,7 @@ class Events
             }
         }
         $this->eventList = $list;
+
         return $this->eventList;
     }
 
@@ -155,10 +157,11 @@ class Events
                     }
                 }
             }
+
             return $results;
         }
     }
-    
+
     /**
      * @param string $event
      * @param Plugin $object
@@ -178,6 +181,7 @@ class Events
                 }
             }
         }
+
         return $count;
     }
 

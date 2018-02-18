@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 /*
  * Cerberus IRCBot
@@ -32,44 +32,10 @@ namespace Cerberus\Formatter;
  */
 abstract class AbstractFormatter
 {
-    protected $type = null;
-    
-    abstract protected function matchColor(int $id): string;
-
-    abstract protected function getColor(int $fontColor = null, int $backgroundColor = null): string;
-
-    abstract protected function bold(string $text): string;
-
-    abstract protected function underline(string $text): string;
-
     /**
-     * @param string $text
-     * @param string $delimiter
-     * @param string $start
-     * @param string $stop
-     * @return string
+     * @var string|null
      */
-    protected function format(string $text, string $delimiter, string $start = null, string $stop = null): string
-    {
-        $formatArray = explode($delimiter, $text);
-        $text = array_shift($formatArray);
-        $open = false;
-        foreach ($formatArray as $part) {
-            if (!$open) {
-                $text .= $start;
-                $open = true;
-            } else {
-                $text .= $stop;
-                $open = false;
-            }
-            $text .= $part;
-        }
-        if ($open) {
-            $text .= $stop;
-        }
-
-        return $text;
-    }
+    protected $type = null;
 
     /**
      * @param string $text
@@ -114,5 +80,42 @@ abstract class AbstractFormatter
         }
 
         return $coloredText;
+    }
+
+    abstract protected function matchColor(int $id): string;
+
+    abstract protected function getColor(int $fontColor = null, int $backgroundColor = null): string;
+
+    abstract protected function bold(string $text): string;
+
+    abstract protected function underline(string $text): string;
+
+    /**
+     * @param string $text
+     * @param string $delimiter
+     * @param string $start
+     * @param string $stop
+     * @return string
+     */
+    protected function format(string $text, string $delimiter, string $start = null, string $stop = null): string
+    {
+        $formatArray = explode($delimiter, $text);
+        $text = array_shift($formatArray);
+        $open = false;
+        foreach ($formatArray as $part) {
+            if (!$open) {
+                $text .= $start;
+                $open = true;
+            } else {
+                $text .= $stop;
+                $open = false;
+            }
+            $text .= $part;
+        }
+        if ($open) {
+            $text .= $stop;
+        }
+
+        return $text;
     }
 }

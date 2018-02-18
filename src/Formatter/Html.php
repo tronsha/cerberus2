@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 /*
  * Cerberus IRCBot
@@ -47,6 +47,24 @@ class Html extends AbstractFormatter
     public function __construct()
     {
         $this->type = 'HTML';
+    }
+
+    /**
+     * @param string $text
+     * @return string
+     */
+    public function bold(string $text): string
+    {
+        return parent::format($text, "\x02", '<b style="font-weight: bold;">', '</b>');
+    }
+
+    /**
+     * @param string $text
+     * @return string
+     */
+    public function underline(string $text): string
+    {
+        return parent::format($text, "\x1F", '<u style="text-decoration: underline;">', '</u>');
     }
 
     /**
@@ -98,31 +116,16 @@ class Html extends AbstractFormatter
                 return '</span><span style="' . implode('; ', $colorArray) . ';">';
             }
             $this->open = true;
+
             return '<span style="' . implode('; ', $colorArray) . ';">';
         }
         if ($this->open) {
             $this->bg = '';
             $this->open = false;
+
             return '</span>';
         }
+
         return '';
-    }
-
-    /**
-     * @param string $text
-     * @return string
-     */
-    public function bold(string $text): string
-    {
-        return parent::format($text, "\x02", '<b style="font-weight: bold;">', '</b>');
-    }
-
-    /**
-     * @param string $text
-     * @return string
-     */
-    public function underline(string $text): string
-    {
-        return parent::format($text, "\x1F", '<u style="text-decoration: underline;">', '</u>');
     }
 }

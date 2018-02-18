@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 /*
  * Cerberus IRCBot
@@ -38,7 +38,7 @@ class Caller
      * @var array
      */
     private $classes = [];
-    
+
     /**
      * @var Bot
      */
@@ -50,22 +50,6 @@ class Caller
     public function __construct(Bot $bot = null)
     {
         $this->setBot($bot);
-    }
-
-    /**
-     * @param Bot $bot
-     */
-    protected function setBot($bot)
-    {
-        $this->bot = $bot;
-    }
-    
-    /**
-     * @return Bot
-     */
-    protected function getBot(): Bot
-    {
-        return $this->bot;
     }
 
     /**
@@ -84,6 +68,22 @@ class Caller
     }
 
     /**
+     * @param Bot $bot
+     */
+    protected function setBot($bot)
+    {
+        $this->bot = $bot;
+    }
+
+    /**
+     * @return Bot
+     */
+    protected function getBot(): Bot
+    {
+        return $this->bot;
+    }
+
+    /**
      * @param string $className
      * @return object|null
      */
@@ -93,6 +93,7 @@ class Caller
         if (false === array_key_exists($classKey, $this->classes)) {
             $this->classes[$classKey] = $this->createObject($className);
         }
+
         return $this->classes[$classKey];
     }
 
@@ -106,6 +107,7 @@ class Caller
         if (false === $this->getBot()->getSystem()->getFilesystem()->exists($classFile)) {
             throw new FileNotFoundException(null, 0, null, $classFile);
         }
+
         return new $className($this->getBot());
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 /*
  * Cerberus IRCBot
@@ -45,12 +45,12 @@ class Console
      * @var Bot
      */
     private $bot;
-    
+
     /**
      * @var FormatterConsole
      */
     private $formatter;
-    
+
     /**
      * @var StreamOutput
      */
@@ -67,7 +67,7 @@ class Console
         $this->setFormatter($formatter);
         $this->setOutput($output ?? new ConsoleOutput);
     }
-    
+
     /**
      * @param Bot $bot
      */
@@ -75,7 +75,7 @@ class Console
     {
         $this->bot = $bot;
     }
-    
+
     /**
      * @return Bot
      */
@@ -161,9 +161,31 @@ class Console
             }
             $text .= ('\\' === mb_substr($text, -1)) ? ' ' : '';
         }
+
         return true === $escape ? $this->escape($text) : $text;
     }
-    
+
+    /**
+     * @param string $char
+     * @param int $count
+     * @param bool $ignore
+     * @return string
+     */
+    public function count(string $char, int &$count, bool &$ignore): string
+    {
+        if ("\033" === $char) {
+            $ignore = true;
+        }
+        if (!$ignore) {
+            $count++;
+        }
+        if ($ignore && 'm' === $char) {
+            $ignore = false;
+        }
+
+        return $char;
+    }
+
     /**
      * @param string $text
      * @param int $length
@@ -190,9 +212,10 @@ class Console
                 }
             }
         }
+
         return $text;
     }
-    
+
     /**
      * @return int
      */
@@ -202,6 +225,7 @@ class Console
         if (true === $this->getBot()->getSystem()->isExecAvailable()) {
             $length = $this->getBot()->getSystem()->getConsoleColumns();
         }
+
         return $length;
     }
 
@@ -309,26 +333,5 @@ class Console
         }
 
         return $output;
-    }
-
-    /**
-     * @param string $char
-     * @param int $count
-     * @param bool $ignore
-     * @return string
-     */
-    public function count(string $char, int &$count, bool &$ignore): string
-    {
-        if ("\033" === $char) {
-            $ignore = true;
-        }
-        if (!$ignore) {
-            $count++;
-        }
-        if ($ignore && 'm' === $char) {
-            $ignore = false;
-        }
-
-        return $char;
     }
 }

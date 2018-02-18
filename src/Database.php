@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 /*
  * Cerberus IRCBot
@@ -41,12 +41,12 @@ class Database
      * @var Bot
      */
     private $bot = null;
-    
+
     /**
      * @var array
      */
     private $config = [];
-    
+
     /**
      * @var \Doctrine\DBAL\Connection
      */
@@ -62,6 +62,20 @@ class Database
         //foreach ($config as $key => $value) {
         //    $this->setConfig($key, $value);
         //}
+    }
+
+    /**
+     * @param string $name
+     * @param array $arguments
+     * @return mixed
+     */
+    public function __call(string $name, array $arguments)
+    {
+        try {
+            return $this->getBot()->getCaller()->call('\\Cerberus\\Database\\Db', $name, $arguments);
+        } catch (Exception $e) {
+            $this->error($e->getMessage());
+        }
     }
 
     /**
@@ -106,7 +120,7 @@ class Database
     {
         $this->config[$key] = $value;
     }
-    
+
     /**
      * @param Bot $bot
      */
@@ -114,7 +128,7 @@ class Database
     {
         $this->bot = $bot;
     }
-    
+
     /**
      * @return Bot
      */
@@ -137,20 +151,6 @@ class Database
     public function setBotId(int $id)
     {
         $this->getBot()->setBotId($id);
-    }
-
-    /**
-     * @param string $name
-     * @param array $arguments
-     * @return mixed
-     */
-    public function __call(string $name, array $arguments)
-    {
-        try {
-            return $this->getBot()->getCaller()->call('\\Cerberus\\Database\\Db', $name, $arguments);
-        } catch (Exception $e) {
-            $this->error($e->getMessage());
-        }
     }
 
     /**
@@ -181,6 +181,7 @@ class Database
             $row = $stmt->fetch();
             $lastInsertId = $row['id'];
         }
+
         return intval($lastInsertId);
     }
 }

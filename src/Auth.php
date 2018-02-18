@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 /*
  * Cerberus IRCBot
@@ -52,7 +52,7 @@ class Auth
     {
         $this->bot = $bot;
     }
-    
+
     /**
      * @return Bot
      */
