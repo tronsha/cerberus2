@@ -22,7 +22,9 @@ return PhpCsFixer\Config::create()
     ->setRiskyAllowed(true)
     ->setRules(array(
         '@PSR2' => true,
+        'array_syntax' => ['syntax' => 'short'],
         'combine_consecutive_unsets' => true,
+        'concat_space' => ['spacing' => 'one'],
         'function_typehint_space' => true,
         'header_comment' => array('header' => $header),
         'include' => true,
@@ -32,6 +34,7 @@ return PhpCsFixer\Config::create()
         'no_leading_import_slash' => true,
         'no_leading_namespace_whitespace' => true,
         'no_unused_imports' => true,
+        'no_useless_else' => true,
         'no_useless_return' => true,
         'no_short_echo_tag' => true,
         'ordered_imports' => true,
@@ -40,13 +43,12 @@ return PhpCsFixer\Config::create()
         'php_unit_dedicate_assert' => true,
         'php_unit_strict' => true,
         'no_mixed_echo_print' => ['use' => 'echo'],
-        'array_syntax' => ['syntax' => 'short'],
         'single_quote' => true,
         'standardize_not_equals' => true,
         'strict_comparison' => true,
         'strict_param' => true,
         'whitespace_after_comma_in_array' => true,
-        'concat_space' => ['spacing' => 'one'],
+        'yoda_style' => true,
     ))
     ->setFinder(
         PhpCsFixer\Finder::create()
