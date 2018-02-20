@@ -42,7 +42,6 @@ return PhpCsFixer\Config::create()
         'no_useless_return' => true,
         'no_short_echo_tag' => true,
         'no_whitespace_in_blank_line' => true,
-        'ordered_class_elements' => ['order' => ['use_trait', 'constant_public', 'constant_protected', 'constant_private', 'property_public', 'property_protected', 'property_private', 'construct', 'destruct', 'magic', 'phpunit', 'method_public', 'method_protected', 'method_private']],
         'ordered_imports' => true,
         'phpdoc_order' => true,
         'php_unit_construct' => true,
