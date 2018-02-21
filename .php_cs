@@ -59,5 +59,6 @@ return PhpCsFixer\Config::create()
         PhpCsFixer\Finder::create()
             ->exclude('vendor')
             ->in(__DIR__)
+            ->name('*.php')
     )
 ;
