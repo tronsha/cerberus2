@@ -73,8 +73,8 @@ class Database
     {
         try {
             return $this->getBot()->getCaller()->call('\\Cerberus\\Database\\Db', $name, $arguments);
-        } catch (Exception $e) {
-            $this->error($e->getMessage());
+        } catch (\Throwable $e) {
+            $this->getBot()->getSystem()->getLogger()->error($e->getMessage(), ['name' => $name, 'arguments' => $arguments]);
         }
     }
 

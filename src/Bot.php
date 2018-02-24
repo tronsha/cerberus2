@@ -24,6 +24,7 @@ namespace Cerberus;
 
 use Cerberus\Formatter\FormatterFactory;
 use Cerberus\Output\Console;
+use ErrorException;
 
 /**
  * Class Bot

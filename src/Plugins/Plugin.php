@@ -23,6 +23,7 @@ declare(strict_types = 1);
 namespace Cerberus\Plugins;
 
 use Cerberus\Bot;
+use Exception;
 
 /**
  * Class Plugin
