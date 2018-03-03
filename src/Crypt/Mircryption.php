@@ -44,7 +44,7 @@ class Mircryption
      */
     public static function encode($text, $key)
     {
-        if (true === extension_loaded('mcrypt') && true === version_compare(PHP_VERSION, '7.1', '<')) {
+        if (true === extension_loaded('mcrypt')) {
             return self::mcryptEncrypt($text, $key);
         } elseif (true === extension_loaded('openssl')) {
             return self::opensslEncrypt($text, $key);
@@ -60,7 +60,7 @@ class Mircryption
      */
     public static function decode($text, $key)
     {
-        if (true === extension_loaded('mcrypt') && true === version_compare(PHP_VERSION, '7.1', '<')) {
+        if (true === extension_loaded('mcrypt')) {
             return self::mcryptDecrypt($text, $key);
         } elseif (true === extension_loaded('openssl')) {
             return self::opensslDecrypt($text, $key);
@@ -77,7 +77,7 @@ class Mircryption
      */
     private static function mcryptEncrypt($text, $key)
     {
-        $iv = Php::randombytes(8);
+        $iv = random_bytes(8);
         $encodedText = mcrypt_encrypt(MCRYPT_BLOWFISH, $key, Pkcs7::pad($text), MCRYPT_MODE_CBC, $iv);
         $encodedTextIv = $iv . $encodedText;
         $decodedTextBaseIv64 = base64_encode($encodedTextIv);
@@ -110,7 +110,7 @@ class Mircryption
      */
     private static function opensslEncrypt($text, $key)
     {
-        $iv = Php::randombytes(8);
+        $iv = random_bytes(8);
         $encodedText = openssl_encrypt($text, 'bf-cbc', $key, OPENSSL_RAW_DATA, $iv);
         $encodedTextIv = $iv . $encodedText;
         $decodedTextBaseIv64 = base64_encode($encodedTextIv);

@@ -43,7 +43,7 @@ class Pkcs7
      */
     public static function pad($text, $block = 8)
     {
-        $length = Php::strlen($text);
+        $length = strlen($text);
         $mod = $length % $block;
         $padding = $block - $mod;
         $text .= str_repeat(chr($padding), $padding);

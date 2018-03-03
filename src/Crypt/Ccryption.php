@@ -57,7 +57,7 @@ class Ccryption
      */
     public static function encode($plaintext, $key)
     {
-        $iv = Php::randombytes(8);
+        $iv = random_bytes(8);
         $crc = hash('crc32b', $plaintext);
         $hash = hash('sha256', $key, true);
         $compressedText = gzcompress($plaintext, 9);
