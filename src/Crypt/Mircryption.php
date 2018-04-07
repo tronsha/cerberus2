@@ -50,7 +50,7 @@ class Mircryption
             return self::opensslEncrypt($text, $key);
         }
 
-        return false;
+        return null;
     }
 
     /**
@@ -66,7 +66,7 @@ class Mircryption
             return self::opensslDecrypt($text, $key);
         }
 
-        return false;
+        return null;
     }
 
     /**
