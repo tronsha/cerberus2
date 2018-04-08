@@ -75,7 +75,7 @@ class Mircryption
      * @return string
      * @link http://php.net/manual/en/function.mcrypt-encrypt.php
      */
-    private static function mcryptEncrypt($text, $key)
+    private static function mcryptEncrypt($text, $key): string
     {
         $iv = random_bytes(8);
         $encodedText = mcrypt_encrypt(MCRYPT_BLOWFISH, $key, Pkcs7::pad($text), MCRYPT_MODE_CBC, $iv);
@@ -91,7 +91,7 @@ class Mircryption
      * @return string
      * @link http://php.net/manual/en/function.mcrypt-decrypt.php
      */
-    private static function mcryptDecrypt($text, $key)
+    private static function mcryptDecrypt($text, $key): string
     {
         $encodedTextIvBase64 = str_replace('*', '', $text);
         $encodedTextIv = base64_decode($encodedTextIvBase64, true);
@@ -108,7 +108,7 @@ class Mircryption
      * @return string
      * @link http://php.net/manual/en/function.openssl-encrypt.php
      */
-    private static function opensslEncrypt($text, $key)
+    private static function opensslEncrypt($text, $key): string
     {
         $iv = random_bytes(8);
         $encodedText = openssl_encrypt($text, 'bf-cbc', $key, OPENSSL_RAW_DATA, $iv);
@@ -124,7 +124,7 @@ class Mircryption
      * @return string
      * @link http://php.net/manual/en/function.openssl-decrypt.php
      */
-    private static function opensslDecrypt($text, $key)
+    private static function opensslDecrypt($text, $key): string
     {
         $encodedTextIvBase64 = str_replace('*', '', $text);
         $encodedTextIv = base64_decode($encodedTextIvBase64, true);
