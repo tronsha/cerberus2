@@ -90,10 +90,14 @@ class Bot
 
     /**
      * @param $id int
+     * 
+     * @return \Cerberus\Bot
      */
-    public function setBotId($id)
+    public function setBotId($id): Bot
     {
         $this->botId = $id;
+        
+        return $this;
     }
 
     /**
