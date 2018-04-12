@@ -135,10 +135,14 @@ class Bot
 
     /**
      * @param System $system
+     *
+     * @return \Cerberus\Bot
      */
-    public function setSystem(System $system)
+    public function setSystem(System $system): Bot
     {
         $this->system = $system;
+                
+        return $this;
     }
 
     /**
