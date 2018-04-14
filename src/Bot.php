@@ -90,13 +90,13 @@ class Bot
 
     /**
      * @param $id int
-     * 
+     *
      * @return \Cerberus\Bot
      */
     public function setBotId($id): Bot
     {
         $this->botId = $id;
-        
+
         return $this;
     }
 
@@ -141,7 +141,7 @@ class Bot
     public function setSystem(System $system): Bot
     {
         $this->system = $system;
-                
+
         return $this;
     }
 
@@ -155,13 +155,13 @@ class Bot
 
     /**
      * @param Database $database
-     * 
+     *
      * @return \Cerberus\Bot
      */
     public function setDatabase(Database $database): Bot
     {
         $this->database = $database;
-        
+
         return $this;
     }
 

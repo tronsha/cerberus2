@@ -47,13 +47,13 @@ class Auth
 
     /**
      * @param Bot $bot
-     * 
+     *
      * @return Auth
      */
     public function setBot($bot): Auth
     {
         $this->bot = $bot;
-        
+
         return $this;
     }
 
