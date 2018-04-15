@@ -110,14 +110,18 @@ class Bot
 
     /**
      * @param array $param
+     *
+     * @return \Cerberus\Bot
      */
-    public function setParam($param)
+    public function setParam($param): Bot
     {
         $count = count($param);
         for ($i = 1; $i < $count; $i++) {
             $parts = explode('=', $param[$i]);
             $this->param[$parts[0]] = $parts[1] ?? '';
         }
+
+        return $this;
     }
 
     /**
