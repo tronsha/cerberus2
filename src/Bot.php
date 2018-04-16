@@ -179,10 +179,14 @@ class Bot
 
     /**
      * @param Console $console
+     * 
+     * @return \Cerberus\Bot
      */
-    public function setConsole(Console $console)
+    public function setConsole(Console $console): Bot
     {
         $this->console = $console;
+
+        return $thus;
     }
 
     /**
