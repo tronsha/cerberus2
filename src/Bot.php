@@ -186,7 +186,7 @@ class Bot
     {
         $this->console = $console;
 
-        return $thus;
+        return $this;
     }
 
     /**
