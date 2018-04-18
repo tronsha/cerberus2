@@ -199,10 +199,14 @@ class Bot
 
     /**
      * @param Caller $caller
+     * 
+     * @return \Cerberus\Bot
      */
-    public function setCaller(Caller $caller)
+    public function setCaller(Caller $caller): Bot
     {
         $this->caller = $caller;
+        
+        return $this;
     }
 
     /**
