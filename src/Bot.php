@@ -219,10 +219,14 @@ class Bot
 
     /**
      * @param Cron $cron
+     * 
+     * @return \Cerberus\Bot
      */
-    public function setCron(Cron $cron)
+    public function setCron(Cron $cron): Bot
     {
         $this->cron = $cron;
+        
+        return $this;
     }
 
     /**
