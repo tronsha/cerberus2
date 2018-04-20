@@ -239,10 +239,14 @@ class Bot
 
     /**
      * @param Events $events
+     * 
+     * @return \Cerberus\Bot
      */
-    public function setEvents(Events $events)
+    public function setEvents(Events $events): Bot
     {
         $this->events = $events;
+        
+        return $this;
     }
 
     /**
