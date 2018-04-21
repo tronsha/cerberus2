@@ -179,7 +179,7 @@ class Bot
 
     /**
      * @param Console $console
-     * 
+     *
      * @return \Cerberus\Bot
      */
     public function setConsole(Console $console): Bot
@@ -199,13 +199,13 @@ class Bot
 
     /**
      * @param Caller $caller
-     * 
+     *
      * @return \Cerberus\Bot
      */
     public function setCaller(Caller $caller): Bot
     {
         $this->caller = $caller;
-        
+
         return $this;
     }
 
@@ -219,13 +219,13 @@ class Bot
 
     /**
      * @param Cron $cron
-     * 
+     *
      * @return \Cerberus\Bot
      */
     public function setCron(Cron $cron): Bot
     {
         $this->cron = $cron;
-        
+
         return $this;
     }
 
@@ -239,13 +239,13 @@ class Bot
 
     /**
      * @param Events $events
-     * 
+     *
      * @return \Cerberus\Bot
      */
     public function setEvents(Events $events): Bot
     {
         $this->events = $events;
-        
+
         return $this;
     }
 
@@ -259,10 +259,14 @@ class Bot
 
     /**
      * @param Config $config
+     *
+     * @return \Cerberus\Bot
      */
-    public function setConfig(Config $config)
+    public function setConfig(Config $config): Bot
     {
         $this->config = $config;
+
+        return $this;
     }
 
     /**
