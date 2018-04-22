@@ -279,10 +279,14 @@ class Bot
 
     /**
      * @param Irc $irc
+     *
+     * @return \Cerberus\Bot
      */
-    public function setIrc(Irc $irc)
+    public function setIrc(Irc $irc): Bot
     {
         $this->irc = $irc;
+
+        return $this;
     }
 
     /**
