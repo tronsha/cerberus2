@@ -299,10 +299,14 @@ class Bot
 
     /**
      * @param Auth $auth
+     * 
+     * @return \Cerberus\Bot
      */
-    public function setAuth(Auth $auth)
+    public function setAuth(Auth $auth): Bot
     {
         $this->auth = $auth;
+        
+        return $this;
     }
 
     /**
