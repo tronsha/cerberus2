@@ -69,10 +69,14 @@ class Caller
 
     /**
      * @param Bot $bot
+     * 
+     * @return \Cerberus\Caller
      */
-    protected function setBot($bot)
+    protected function setBot($bot): Caller
     {
         $this->bot = $bot;
+        
+        return $this;
     }
 
     /**
