@@ -115,10 +115,14 @@ class Database
     /**
      * @param string $key
      * @param mixed $value
+     * 
+     * @return \Cerberus\Database
      */
-    public function setConfig($key, $value)
+    public function setConfig($key, $value): Database
     {
         $this->config[$key] = $value;
+        
+        return $this;
     }
 
     /**
