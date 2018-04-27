@@ -127,10 +127,14 @@ class Database
 
     /**
      * @param Bot $bot
+     * 
+     * @return \Cerberus\Database
      */
-    public function setBot(Bot $bot)
+    public function setBot(Bot $bot): Database
     {
         $this->bot = $bot;
+        
+        return $this;
     }
 
     /**
