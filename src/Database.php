@@ -155,10 +155,14 @@ class Database
 
     /**
      * @param int $id
+     *
+     * @return \Cerberus\Database
      */
-    public function setBotId(int $id)
+    public function setBotId(int $id): Database
     {
         $this->getBot()->setBotId($id);
+
+        return $this;
     }
 
     /**
