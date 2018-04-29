@@ -47,10 +47,14 @@ class Irc
 
     /**
      * @param Bot $bot
+     *
+     * @return \Cerberus\Irc
      */
-    public function setBot($bot)
+    public function setBot($bot): Irc
     {
         $this->bot = $bot;
+
+        return$this;
     }
 
     /**
