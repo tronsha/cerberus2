@@ -70,10 +70,14 @@ class Console
 
     /**
      * @param Bot $bot
+     * 
+     * @return \Cerberus\Output\Console
      */
-    public function setBot(Bot $bot)
+    public function setBot(Bot $bot): Console
     {
         $this->bot = $bot;
+        
+        return $this;
     }
 
     /**
