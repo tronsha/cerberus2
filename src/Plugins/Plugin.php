@@ -42,10 +42,14 @@ abstract class Plugin
 
     /**
      * @param Bot $bot
+     * 
+     * @return \Cerberus\Plugins\Plugin
      */
-    public function __construct(Bot $bot = null)
+    public function __construct(Bot $bot = null): Plugin
     {
         $this->setBot($bot);
+        
+        return $this;
     }
 
     /**
