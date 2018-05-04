@@ -49,10 +49,14 @@ abstract class Event
 
     /**
      * @param Bot $bot
+     * 
+     * @return \Cerberus\Events\Event
      */
-    public function setBot($bot)
+    public function setBot($bot): Event
     {
         $this->bot = $bot;
+        
+        return $this;
     }
 
     /**
