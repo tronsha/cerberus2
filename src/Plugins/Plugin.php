@@ -50,13 +50,13 @@ abstract class Plugin
 
     /**
      * @param Bot $bot
-     * 
+     *
      * @return \Cerberus\Plugins\Plugin
      */
     public function setBot($bot): Plugin
     {
         $this->bot = $bot;
-                
+
         return $this;
     }
 
